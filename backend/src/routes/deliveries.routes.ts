@@ -16,8 +16,14 @@ const staffAccess = [
   requireRole("manager", "staff")
 ];
 
+const farmerAccess = [
+  requireAuth,
+  requireRole("manager", "staff", "farmer")
+];
+
 // GET all deliveries belonging to the cooperative.
-router.get("/", ...staffAccess, async (req, res) => {
+// Farmers can only see their own deliveries.
+router.get("/", ...farmerAccess, async (req, res) => {
   try {
     const { farmerId } = req.query;
 
@@ -27,7 +33,10 @@ router.get("/", ...staffAccess, async (req, res) => {
       .eq("cooperative_id", req.user!.cooperativeId)
       .order("created_at", { ascending: false });
 
-    if (farmerId !== undefined) {
+    // Farmers can only see their own deliveries
+    if (req.user!.role === "farmer") {
+      query = query.eq("farmer_id", req.user!.id);
+    } else if (farmerId !== undefined) {
       if (
         typeof farmerId !== "string" ||
         !uuidPattern.test(farmerId)
@@ -72,7 +81,7 @@ router.get("/", ...staffAccess, async (req, res) => {
 });
 
 // GET one delivery.
-router.get("/:id", ...staffAccess, async (req, res) => {
+router.get("/:id", ...farmerAccess, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -83,12 +92,18 @@ router.get("/:id", ...staffAccess, async (req, res) => {
       });
     }
 
-    const { data, error } = await supabase
+    let query = supabase
       .from("deliveries")
       .select("*")
       .eq("id", id)
-      .eq("cooperative_id", req.user!.cooperativeId)
-      .maybeSingle();
+      .eq("cooperative_id", req.user!.cooperativeId);
+
+    // Farmers can only see their own deliveries
+    if (req.user!.role === "farmer") {
+      query = query.eq("farmer_id", req.user!.id);
+    }
+
+    const { data, error } = await query.maybeSingle();
 
     if (error) throw error;
 

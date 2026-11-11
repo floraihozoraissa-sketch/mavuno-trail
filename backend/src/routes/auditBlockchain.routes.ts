@@ -12,14 +12,32 @@ import { requireAuth, requireRole } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.get("/events", requireAuth, requireRole("manager", "staff"), async (req, res) => {
+router.get("/events", requireAuth, requireRole("manager", "staff", "farmer"), async (req, res) => {
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from("audit_events")
       .select("id, entity_type, entity_id, event_type, recorded_at, audit_event_anchors(id, transaction_hash, blockchain_network, block_number, contract_address)")
       .eq("cooperative_id", req.user!.cooperativeId)
       .order("recorded_at", { ascending: false })
       .limit(100);
+
+    // Farmers can only see audit events for their own deliveries
+    if (req.user!.role === "farmer") {
+      const { data: farmerDeliveries } = await supabase
+        .from("deliveries")
+        .select("id")
+        .eq("farmer_id", req.user!.id)
+        .eq("cooperative_id", req.user!.cooperativeId);
+      
+      const deliveryIds = (farmerDeliveries ?? []).map(d => d.id);
+      if (deliveryIds.length > 0) {
+        query = query.in("entity_id", deliveryIds).eq("entity_type", "delivery");
+      } else {
+        return res.json({ success: true, data: [] });
+      }
+    }
+
+    const { data, error } = await query;
     if (error) throw error;
     return res.json({ success: true, data: data ?? [] });
   } catch (error) {

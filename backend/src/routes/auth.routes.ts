@@ -259,4 +259,91 @@ router.get("/me", requireAuth, (req, res) => {
   });
 });
 
+// Demo farmer authentication - clearly labeled as demonstration only
+// This endpoint allows access to fictional seed farmer records for demonstration purposes
+router.post("/farmer/demo", async (req, res) => {
+  try {
+    const { farmerCode } = req.body;
+
+    if (typeof farmerCode !== "string" || !farmerCode.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Farmer code is required for demo access."
+      });
+    }
+
+    const { data: farmer, error: farmerError } = await supabase
+      .from("farmers")
+      .select("id, cooperative_id, farmer_code, full_name, village, district, status")
+      .eq("farmer_code", farmerCode.trim().toUpperCase())
+      .eq("status", "active")
+      .maybeSingle();
+
+    if (farmerError) {
+      console.error("Farmer demo lookup failed:", farmerError.message);
+      return res.status(500).json({
+        success: false,
+        message: "Could not retrieve farmer record."
+      });
+    }
+
+    if (!farmer) {
+      return res.status(404).json({
+        success: false,
+        message: "Demo farmer not found. Use a valid fictional farmer code."
+      });
+    }
+
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      return res.status(500).json({
+        success: false,
+        message: "Authentication configuration error."
+      });
+    }
+
+    // Issue a demo token with farmer role
+    const token = jwt.sign(
+      {
+        sub: farmer.id,
+        cooperativeId: farmer.cooperative_id,
+        role: "farmer",
+        walletAddress: "demo-farmer-" + farmer.farmer_code.toLowerCase(),
+        farmerCode: farmer.farmer_code
+      },
+      jwtSecret,
+      {
+        expiresIn: "2h",
+        issuer: "mavunotrail-api",
+        audience: "mavunotrail-app"
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Demo farmer access granted. This is a demonstration using fictional records.",
+      data: {
+        token,
+        user: {
+          id: farmer.id,
+          cooperativeId: farmer.cooperative_id,
+          fullName: farmer.full_name,
+          role: "farmer",
+          walletAddress: "demo-farmer-" + farmer.farmer_code.toLowerCase(),
+          farmerCode: farmer.farmer_code,
+          village: farmer.village,
+          district: farmer.district
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error("Farmer demo authentication error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Could not process demo farmer access."
+    });
+  }
+});
+
 export default router;

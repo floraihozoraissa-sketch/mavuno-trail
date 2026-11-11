@@ -8,7 +8,8 @@ const uuidPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // GET a farmer's financial statement
-router.get("/farmer/:farmerId", requireAuth, requireRole("manager", "staff"), async (req, res) => {
+// Allows staff to view any farmer, and farmers to view only their own statement
+router.get("/farmer/:farmerId", requireAuth, requireRole("manager", "staff", "farmer"), async (req, res) => {
   try {
     const farmerId = String(req.params.farmerId);
 
@@ -16,6 +17,14 @@ router.get("/farmer/:farmerId", requireAuth, requireRole("manager", "staff"), as
       return res.status(400).json({
         success: false,
         message: "Invalid farmer ID."
+      });
+    }
+
+    // Farmers can only access their own statement
+    if (req.user!.role === "farmer" && req.user!.id !== farmerId) {
+      return res.status(403).json({
+        success: false,
+        message: "You can only access your own statement."
       });
     }
 

@@ -49,7 +49,7 @@ export function requireAuth(
       walletAddress?: string;
     };
 
-    if (
+if (
       typeof payload.sub !== "string" ||
       typeof payload.cooperativeId !== "string" ||
       !["manager", "staff", "farmer"].includes(payload.role || "") ||
