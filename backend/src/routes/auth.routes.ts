@@ -272,10 +272,20 @@ router.post("/farmer/demo", async (req, res) => {
       });
     }
 
+    const normalizedCode = farmerCode.trim().toUpperCase();
+    const permittedDemoCodes = ["F-0248", "F-0312", "F-0156", "F-0421"];
+
+    if (!permittedDemoCodes.includes(normalizedCode)) {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid demo farmer code."
+      });
+    }
+
     const { data: farmer, error: farmerError } = await supabase
       .from("farmers")
       .select("id, cooperative_id, farmer_code, full_name, village, district, status")
-      .eq("farmer_code", farmerCode.trim().toUpperCase())
+      .eq("farmer_code", normalizedCode)
       .eq("status", "active")
       .maybeSingle();
 
