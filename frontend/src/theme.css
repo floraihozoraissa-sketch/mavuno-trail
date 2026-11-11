@@ -1,0 +1,578 @@
+
+/* MAVUNOTRAIL — DESIGN FOUNDATION */
+
+:root {
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 16px;
+  color: #26372d;
+  background: #f6f8f4;
+
+  --mt-green: #245b45;
+  --mt-green-dark: #194631;
+  --mt-green-soft: #eaf2e9;
+  --mt-gold: #d6a64f;
+  --mt-ink: #26372d;
+  --mt-muted: #68766d;
+  --mt-line: #e3e9e1;
+  --mt-paper: #ffffff;
+  --mt-canvas: #f6f8f4;
+
+  --mt-radius: 16px;
+  --mt-shadow: 0 4px 18px rgba(31, 65, 43, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--mt-canvas);
+  color: var(--mt-ink);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Readability: eliminate tiny interface text */
+
+p,
+label,
+input,
+select,
+textarea,
+td,
+th,
+small,
+.helper,
+.field-label,
+.table-note,
+.fine-print,
+.form-grid label {
+  font-size: 14px !important;
+  line-height: 1.55;
+}
+
+.eyebrow,
+.optional,
+.network-tag,
+.demo-chip,
+.status,
+.journey-status {
+  font-size: 12px !important;
+  letter-spacing: 0.04em;
+}
+
+h1 {
+  font-size: clamp(28px, 3vw, 36px) !important;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+}
+
+h2 {
+  font-size: 22px !important;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 18px !important;
+}
+
+/* Main workspace */
+
+.staff-main {
+  background: var(--mt-canvas);
+}
+
+.workspace {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.topbar {
+  min-height: 68px;
+  background: var(--mt-paper);
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.page-head {
+  margin-bottom: 28px;
+}
+
+.page-head h1 {
+  margin: 8px 0;
+  color: var(--mt-ink);
+}
+
+.page-head p {
+  color: var(--mt-muted);
+}
+
+/* Sidebar */
+
+.sidebar {
+  background: #ffffff;
+  border-right: 1px solid var(--mt-line);
+}
+
+.side-nav button {
+  min-height: 46px;
+  font-size: 14px !important;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.side-nav button.active {
+  background: var(--mt-green-soft);
+  color: var(--mt-green);
+  font-weight: 700;
+}
+
+/* Cards */
+
+.panel,
+.stat-card,
+.journey-panel,
+.allocation-panel,
+.recent-panel,
+.data-panel,
+.journey-card {
+  background: var(--mt-paper);
+  border: 1px solid var(--mt-line);
+  border-radius: var(--mt-radius);
+  box-shadow: var(--mt-shadow);
+}
+
+.panel,
+.data-panel,
+.journey-panel,
+.allocation-panel,
+.recent-panel {
+  padding: 24px;
+}
+
+.panel-head h2 {
+  font-size: 21px !important;
+  color: var(--mt-ink);
+}
+
+/* Dashboard statistics */
+
+.stats-grid {
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  min-height: 150px;
+  padding: 22px;
+}
+
+.stat-card > span {
+  display: block;
+  color: var(--mt-muted);
+  font-size: 14px !important;
+}
+
+.stat-card > strong {
+  display: block;
+  margin: 12px 0 6px;
+  color: var(--mt-ink);
+  font-size: 26px !important;
+  line-height: 1.2;
+}
+
+.stat-card > small {
+  color: var(--mt-muted);
+}
+
+/* Tables */
+
+.table-wrap {
+  overflow-x: auto;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+th {
+  padding: 15px 14px;
+  background: #f7f9f6;
+  color: #526258;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+}
+
+td {
+  padding: 16px 14px;
+  border-bottom: 1px solid var(--mt-line);
+  color: var(--mt-ink);
+}
+
+tbody tr:hover {
+  background: #f9fbf8;
+}
+
+/* Buttons */
+
+.button {
+  min-height: 46px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-size: 14px !important;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.button.primary {
+  background: var(--mt-green);
+  color: #ffffff;
+}
+
+.button.primary:hover {
+  background: var(--mt-green-dark);
+}
+
+.button.outline,
+.button.secondary {
+  background: #ffffff;
+  border: 1px solid var(--mt-line);
+  color: var(--mt-green);
+}
+
+/* Forms */
+
+.form-grid {
+  gap: 18px;
+}
+
+.form-grid label {
+  color: #405247;
+  font-weight: 600;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea,
+.wallet-box input {
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid #d8e1d8;
+  border-radius: 9px;
+  background: #ffffff;
+  color: var(--mt-ink);
+  font-size: 15px !important;
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus {
+  outline: 3px solid #e3efe3;
+  border-color: var(--mt-green);
+}
+
+/* Status indicators */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+/* Farmer experience */
+
+.farmer-content {
+  width: min(820px, calc(100% - 36px));
+}
+
+.farmer-greeting h1 {
+  font-size: 30px !important;
+}
+
+.earnings-card {
+  padding: 26px;
+  border-radius: 18px;
+}
+
+.earnings-card > strong {
+  font-size: 34px !important;
+}
+
+.journey-card {
+  padding: 24px;
+}
+
+.journey-step {
+  min-height: 64px;
+}
+
+.journey-step strong {
+  font-size: 15px !important;
+}
+
+.journey-step small {
+  font-size: 13px !important;
+}
+
+.farmer-mini-grid button {
+  min-height: 115px;
+  padding: 18px;
+  border-radius: 14px;
+}
+
+.farmer-mini-grid strong {
+  font-size: 15px !important;
+}
+
+/* Dialogs */
+
+.modal {
+  border-radius: 18px;
+  padding: 28px;
+}
+
+.modal > header h2 {
+  font-size: 22px !important;
+}
+
+/* Responsive layout */
+
+@media (max-width: 760px) {
+  .workspace {
+    padding: 22px 16px 40px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .stat-card {
+    min-height: 130px;
+    padding: 15px;
+  }
+
+  .stat-card > strong {
+    font-size: 21px !important;
+  }
+
+  .panel,
+  .data-panel,
+  .journey-panel,
+  .allocation-panel,
+  .recent-panel {
+    padding: 17px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .span-2 {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 420px) {
+  body {
+    font-size: 15px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .farmer-content {
+    width: calc(100% - 28px);
+  }
+
+  .earnings-card > strong {
+    font-size: 28px !important;
+  }
+}
+
+
+/* =========================================
+   MAVUNOTRAIL — OVERFLOW & RESPONSIVE FIXES
+   ========================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.staff-app,
+.staff-main,
+.workspace,
+.farmer-shell,
+.farmer-content,
+.panel,
+.data-panel,
+.journey-card,
+.login-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.workspace {
+  width: 100%;
+}
+
+.page-head,
+.panel-head,
+.section-heading,
+.topbar,
+.farmer-greeting {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.page-head > *,
+.panel-head > *,
+.section-heading > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+strong,
+small,
+label,
+button,
+td,
+th {
+  overflow-wrap: anywhere;
+}
+
+input,
+select,
+textarea {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+table {
+  min-width: 650px;
+}
+
+.hash-link {
+  display: inline-block;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.stats-grid,
+.overview-grid,
+.farmer-mini-grid,
+.form-grid {
+  min-width: 0;
+}
+
+.stats-grid > *,
+.overview-grid > *,
+.farmer-mini-grid > *,
+.form-grid > * {
+  min-width: 0;
+}
+
+.button {
+  min-height: 44px;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .workspace {
+    padding: 24px 20px 40px;
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .workspace {
+    padding: 20px 14px 32px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-head {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .page-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .page-actions .button {
+    flex: 1 1 auto;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .span-2 {
+    grid-column: auto;
+  }
+}

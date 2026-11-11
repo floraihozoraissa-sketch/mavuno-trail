@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
-import "./App.css";
 import { ThirdwebProvider } from "thirdweb/react";
 import { createThirdwebClient } from "thirdweb";
 import { BrowserProvider, Contract } from "ethers";
 import heroImage from "./assets/hero.png";
+import "./App.css";
+import "./theme.css";
 
 const clientId = import.meta.env.VITE_THIRDWEB_CLIENT_ID;
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
@@ -36,7 +37,30 @@ async function request<T = Row>(path: string, token: string, init?: RequestInit)
   return result as T;
 }
 
-function Brand({ large = false }: { large?: boolean }) { return <div className={`brand ${large ? "brand-large" : ""}`}><span className="brand-mark">m</span><span>Mavuno<span className="brand-light">Trail</span><small>HARVEST, ACCOUNTED FOR</small></span></div>; }
+
+function Brand({ large = false }: { large?: boolean }) {
+  return (
+    <div className={`brand ${large ? "brand-large" : ""}`}>
+      <span className="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M13 47V19h8l11 14 11-14h8v28h-9V32L32 45 22 32v15z"
+            fill="#ffffff"
+          />
+          <path
+            d="M45 12c4-3 8-3 11-2-1 5-4 9-10 10"
+            fill="#b9d9bd"
+          />
+        </svg>
+      </span>
+
+      <span className="brand-name">
+        Mavuno<span className="brand-light">Trail</span>
+        <small>EVERY HARVEST HAS A STORY. FOLLOW YOURS.</small>
+      </span>
+    </div>
+  );
+}
 
 // Wallet login for cooperative staff
 function WalletLogin({ onAuthenticated, onDemo }: { onAuthenticated: (token: string, identity: Row) => void; onDemo: () => void }) {
@@ -75,17 +99,78 @@ function WalletLogin({ onAuthenticated, onDemo }: { onAuthenticated: (token: str
     finally { setLoading(false); }
   }
 
-  return <main className="login-page"><section className="login-card">
-    <Brand large /><div className="eyebrow">COOPERATIVE PORTAL</div><h1>Good work starts with a clear record.</h1>
-    <p className="muted login-copy">Follow every delivery from the collection point to the farmer's payment record.</p>
-    <div className="wallet-box">
-      <button className="button primary full" onClick={login} disabled={loading}>{loading ? "Signing in…" : "Sign in with MetaMask"}</button>
-    </div>
-    {message && <p className="notice" role="status">{message}</p>}
-    <div className="separator"><span>OR EXPLORE</span></div>
-    <button className="button secondary full" onClick={onDemo}>Open demo farmer view <span>→</span></button>
-    <p className="fine-print">Demo farmer records are fictional. Staff access uses wallet verification and a cooperative account.</p>
-  </section><div className="login-art"><img src={heroImage} alt="Potato harvest" /><div className="art-caption"><span>RWANDA · COOPERATIVE TRACEABILITY</span><strong>Every harvest<br />has a story.</strong></div></div></main>;
+  return (
+    <main className="login-page login-staff">
+      <section className="login-card">
+        <Brand large />
+
+        <div className="eyebrow">COOPERATIVE WORKSPACE</div>
+
+        <h1>Every delivery. Every decision. Clearly recorded.</h1>
+
+        <p className="muted login-copy">
+          Manage farmer deliveries, cooperative sales and payment records
+          with a clearer view of every harvest.
+        </p>
+
+        <div className="wallet-box">
+          <div className="auth-method">
+            <strong>Cooperative staff access</strong>
+            <span>Secure wallet authentication</span>
+          </div>
+
+          <button
+            className="button primary full"
+            onClick={login}
+            disabled={loading}
+            type="button"
+          >
+            {loading ? "Signing in..." : "Sign in with MetaMask"}
+          </button>
+
+          <p className="auth-helper">
+            Connect the cooperative wallet registered for staff access.
+          </p>
+        </div>
+
+        {message && (
+          <p className="notice" role="status" aria-live="polite">
+            {message}
+          </p>
+        )}
+
+        <div className="separator">
+          <span>OR EXPLORE</span>
+        </div>
+
+        <button
+          className="button secondary full"
+          onClick={onDemo}
+          type="button"
+        >
+          Explore the farmer demo
+        </button>
+
+        <p className="fine-print">
+          Demo farmer records are fictional. Staff access requires
+          wallet verification and an authorised cooperative account.
+        </p>
+      </section>
+
+      <div className="login-art">
+        <img src={heroImage} alt="Potato harvest in Rwanda" />
+        <div className="art-caption">
+          <span>BUILT AROUND RWANDAN FARMERS</span>
+          <strong>
+            Every harvest
+            <br />
+            has a story.
+          </strong>
+          <p>Every harvest has a story. Follow yours.</p>
+        </div>
+      </div>
+    </main>
+  );
 }
 
 // Farmer login screen for demo mode
@@ -111,22 +196,101 @@ function FarmerLogin({ onAuthenticated }: { onAuthenticated: (token: string, ide
     finally { setLoading(false); }
   }
 
-  return <main className="login-page"><section className="login-card">
-    <Brand large /><div className="eyebrow">FARMER PORTAL</div><h1>Follow your harvest story.</h1>
-    <p className="muted login-copy">Enter your farmer code to see your deliveries, allocations, and payments.</p>
-    <div className="wallet-box">
-      <label className="span-2" style={{textAlign: "left"}}><span className="field-label">Farmer code</span><input value={farmerCode} onChange={e => setFarmerCode(e.target.value.toUpperCase())} placeholder="e.g. F-0248" style={{textTransform: "uppercase"}} /></label>
-      <button className="button primary full" onClick={login} disabled={loading}>{loading ? "Loading…" : "View my harvest"}</button>
-    </div>
-    {message && <p className="notice" role="status">{message}</p>}
-    <div className="demo-codes">
-      <strong>Demo farmer codes:</strong>
-      <div className="code-chips">{"F-0248 F-0312 F-0156 F-0421".split(" ").map(c => <span key={c} className="code-chip" onClick={() => setFarmerCode(c)}>{c}</span>)}</div>
-      <p className="fine-print">These are fictional demonstration records. No real farmer data is exposed.</p>
-    </div>
-    <div className="separator"><span>OR RETURN</span></div>
-    <button className="button secondary full" onClick={() => window.location.reload()}>Back to cooperative portal</button>
-  </section><div className="login-art"><img src={heroImage} alt="Potato harvest" /><div className="art-caption"><span>RWANDA · COOPERATIVE TRACEABILITY</span><strong>Every harvest<br />has a story.</strong></div></div></main>;
+  return (
+    <main className="login-page login-farmer">
+      <section className="login-card">
+        <Brand large />
+
+        <div className="eyebrow">FARMER PORTAL</div>
+
+        <h1>Your harvest. Your records.</h1>
+
+        <p className="muted login-copy">
+          See your recorded deliveries, understand your share of
+          cooperative sales and follow your payment records.
+        </p>
+
+        <div className="wallet-box farmer-login-box">
+          <label htmlFor="farmer-code">
+            <span className="field-label">Your farmer code</span>
+            <input
+              id="farmer-code"
+              value={farmerCode}
+              onChange={e => setFarmerCode(e.target.value.toUpperCase())}
+              onKeyDown={e => {
+                if (e.key === "Enter" && !loading) login();
+              }}
+              placeholder="Enter your code"
+              autoComplete="off"
+              style={{ textTransform: "uppercase" }}
+            />
+          </label>
+
+          <button
+            className="button primary full"
+            onClick={login}
+            disabled={loading}
+            type="button"
+          >
+            {loading ? "Loading..." : "View my harvest"}
+          </button>
+        </div>
+
+        {message && (
+          <p className="notice" role="status" aria-live="polite">
+            {message}
+          </p>
+        )}
+
+        <div className="demo-codes">
+          <strong>Try a demonstration account</strong>
+
+          <div className="code-chips">
+            {"F-0248 F-0312 F-0156 F-0421".split(" ").map(c => (
+              <button
+                key={c}
+                type="button"
+                className="code-chip"
+                onClick={() => setFarmerCode(c)}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+
+          <p className="fine-print">
+            These are fictional demonstration records. No real farmer
+            data is exposed.
+          </p>
+        </div>
+
+        <div className="separator">
+          <span>OR RETURN</span>
+        </div>
+
+        <button
+          className="button secondary full"
+          onClick={() => window.location.reload()}
+          type="button"
+        >
+          Back to cooperative portal
+        </button>
+      </section>
+
+      <div className="login-art">
+        <img src={heroImage} alt="Potato harvest in Rwanda" />
+        <div className="art-caption">
+          <span>YOUR HARVEST, YOUR INFORMATION</span>
+          <strong>
+            Know what
+            <br />
+            happens next.
+          </strong>
+          <p>Every harvest has a story. Follow yours.</p>
+        </div>
+      </div>
+    </main>
+  );
 }
 
 // Main farmer application with real backend data

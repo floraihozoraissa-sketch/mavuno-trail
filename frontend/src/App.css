@@ -16,3 +16,318 @@
 .audit-section{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}.audit-list{display:grid;gap:8px;margin-top:10px}.audit-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#fafaf7;border-radius:7px;font-size:9px}.audit-event{color:#4c5b50;font-weight:600}.audit-date{color:#8a948c}.allocation-breakdown{margin-bottom:16px}.alloc-item{padding:12px;background:#fafaf7;border-radius:7px;margin-bottom:8px}.alloc-header{display:flex;justify-content:space-between;margin-bottom:6px}.alloc-header strong{color:#34483a}.alloc-details{display:flex;gap:16px;font-size:8px;color:#7d887f}.payment-history{margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}.payment-history h3{font-size:10px;margin-bottom:8px}.payment-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eff0ea;font-size:9px}.payment-item strong{color:#4c8a60}.deliveries-list{display:grid;gap:10px}.delivery-item{padding:14px;background:#fff;border:1px solid var(--line);border-radius:8px}.delivery-main{display:flex;justify-content:space-between;margin-bottom:6px}.delivery-main strong{color:#34483a;font-size:11px}.delivery-main span{color:#7d887f;font-size:9px}.delivery-meta{display:flex;justify-content:space-between;font-size:9px}.delivery-meta span:first-child{color:#8a948c}.journey-line.compact{margin-top:12px}.journey-line.compact .journey-step{min-height:42px}.journey-line.compact .journey-step:not(:last-child):before{top:20px}
 /* Responsive for farmer bottom nav with 4 items */
 @media(max-width:420px){.farmer-bottom{gap:min(6vw,50px)}.farmer-bottom button{width:60px;font-size:7px}.farmer-bottom button span{font-size:15px}}
+
+
+/* =========================================
+   MAVUNOTRAIL — SHARED BRAND IDENTITY
+   ========================================= */
+
+.brand {
+  gap: 10px;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: #245b45;
+  border-radius: 11px;
+  transform: none;
+  overflow: hidden;
+}
+
+.brand-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+}
+
+.brand-name {
+  display: block;
+  color: #245b45;
+  font-family: var(--heading);
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.brand-light {
+  font-weight: 500;
+}
+
+.brand-name small {
+  display: block;
+  max-width: 220px;
+  margin-top: 4px;
+  color: #829087;
+  font-family: inherit;
+  font-size: 7px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.55px;
+}
+
+.brand-large .brand-mark {
+  width: 46px;
+  height: 46px;
+}
+
+.brand-large .brand-name {
+  font-size: 24px;
+}
+
+.brand-large .brand-name small {
+  font-size: 7px;
+}
+
+
+/* =========================================
+   MAVUNOTRAIL — AUTHENTICATION REDESIGN
+   ========================================= */
+
+.login-page {
+  min-height: 100vh;
+  min-height: 100svh;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  background: #faf9f5;
+}
+
+.login-card {
+  width: min(460px, calc(100% - 56px));
+  padding: 48px 0;
+}
+
+.login-card > .brand {
+  margin-bottom: 58px;
+}
+
+.login-card > .eyebrow {
+  color: #568067;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.login-card h1 {
+  max-width: 440px;
+  margin: 15px 0;
+  color: #214b38;
+  font-size: clamp(30px, 3vw, 39px);
+  line-height: 1.14;
+  letter-spacing: -1.5px;
+}
+
+.login-copy {
+  max-width: 390px;
+  color: #718077;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.wallet-box {
+  width: 100%;
+  margin-top: 30px;
+  padding: 22px;
+  gap: 16px;
+  border: 1px solid #e4e9e1;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(36, 91, 69, 0.045);
+}
+
+.auth-method {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+}
+
+.auth-method strong {
+  color: #294c38;
+  font-size: 15px;
+}
+
+.auth-method span,
+.auth-helper {
+  color: #829087;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.auth-helper {
+  margin: 0;
+  text-align: center;
+}
+
+.wallet-box .button,
+.login-card > .button {
+  min-height: 49px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.login-card .separator {
+  margin: 27px 0 17px;
+  font-size: 10px;
+}
+
+.login-card .fine-print {
+  margin-top: 20px;
+  color: #89938b;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.login-art {
+  min-height: 100vh;
+  background: #244d38;
+}
+
+.login-art img {
+  filter: saturate(0.85);
+}
+
+.login-art:after {
+  background: linear-gradient(
+    0deg,
+    rgba(20, 48, 33, 0.88) 0%,
+    rgba(20, 48, 33, 0.15) 75%,
+    transparent 100%
+  );
+}
+
+.art-caption {
+  left: 9%;
+  right: 9%;
+  bottom: 9%;
+  gap: 16px;
+}
+
+.art-caption span {
+  color: #d8c69e;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+}
+
+.art-caption strong {
+  max-width: 500px;
+  font-size: clamp(36px, 4vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -1.7px;
+}
+
+.art-caption p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+}
+
+.auth-error,
+.notice {
+  overflow-wrap: anywhere;
+}
+
+.farmer-login-box label {
+  display: grid;
+  width: 100%;
+  gap: 9px;
+  text-align: left;
+}
+
+.farmer-login-box input {
+  width: 100%;
+  min-height: 49px;
+  padding: 0 14px;
+  border: 1px solid #dfe6dd;
+  border-radius: 8px;
+  background: #fbfcfa;
+  color: #294c38;
+  font-size: 16px;
+  outline: none;
+}
+
+.farmer-login-box input:focus {
+  border-color: #568067;
+  box-shadow: 0 0 0 3px rgba(86, 128, 103, 0.12);
+}
+
+.demo-codes {
+  margin-top: 24px;
+}
+
+.demo-codes > strong {
+  color: #385642;
+  font-size: 13px;
+}
+
+.code-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.code-chip {
+  padding: 9px 13px;
+  border: 1px solid #dce7dc;
+  border-radius: 8px;
+  background: #f0f5ef;
+  color: #315b40;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.code-chip:hover {
+  border-color: #8eae91;
+  background: #e5efe4;
+}
+
+@media (max-width: 760px) {
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  .login-card {
+    width: min(460px, calc(100% - 40px));
+    padding: 34px 0 40px;
+  }
+
+  .login-card > .brand {
+    margin-bottom: 42px;
+  }
+
+  .login-card h1 {
+    font-size: 32px;
+  }
+
+  .login-copy {
+    font-size: 14px;
+  }
+
+  .wallet-box {
+    padding: 18px;
+  }
+
+  .login-art {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .login-card {
+    width: calc(100% - 32px);
+  }
+
+  .login-card h1 {
+    font-size: 29px;
+  }
+
+  .code-chips {
+    gap: 7px;
+  }
+}
