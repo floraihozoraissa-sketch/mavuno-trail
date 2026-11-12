@@ -95,45 +95,150 @@ router.get("/sale/:saleId", requireAuth, requireRole("manager", "staff"), async 
       });
     }
 
-    const itemIds = (saleItems ?? []).map(item => item.id);
+  
+const itemIds = (saleItems ?? []).map(item => item.id);
 
-    if (itemIds.length === 0) {
-      return res.status(200).json({
-        success: true,
-        count: 0,
-        data: []
-      });
-    }
+if (itemIds.length === 0) {
+  return res.status(200).json({
+    success: true,
+    count: 0,
+    data: []
+  });
+}
 
-    const { data, error } = await supabase
-      .from("farmer_allocations")
-      .select("*")
-      .in("sale_batch_item_id", itemIds)
-      .order("created_at", { ascending: true });
+// 1. Retrieve allocations belonging to these sale items.
+const { data: allocations, error: allocationsError } = await supabase
+  .from("farmer_allocations")
+  .select(`
+    id,
+    sale_batch_item_id,
+    farmer_id,
+    eligible_quantity_kg,
+    contribution_share,
+    gross_amount_rwf,
+    deductions_rwf,
+    net_amount_rwf,
+    status,
+    approved_at,
+    created_at
+  `)
+  .in("sale_batch_item_id", itemIds)
+  .order("created_at", { ascending: true });
 
-    if (error) {
-      console.error("Sale allocations query failed:", error.message);
+if (allocationsError) {
+  console.error("Sale allocations query failed:", allocationsError.message);
 
-      return res.status(500).json({
-        success: false,
-        message: "Could not retrieve sale allocations."
-      });
-    }
+  return res.status(500).json({
+    success: false,
+    message: "Could not retrieve sale allocations."
+  });
+}
 
-    return res.status(200).json({
-      success: true,
-      count: data.length,
-      data
-    });
+const allocationRows = allocations ?? [];
 
-  } catch (error) {
-    console.error("Sale allocations error:", error);
+// 2. Retrieve farmer details.
+const farmerIds = [
+  ...new Set(allocationRows.map(item => item.farmer_id))
+];
+
+let farmers: any[] = [];
+
+if (farmerIds.length > 0) {
+  const { data, error } = await supabase
+    .from("farmers")
+    .select("id, farmer_code, full_name")
+    .eq("cooperative_id", req.user!.cooperativeId)
+    .in("id", farmerIds);
+
+  if (error) {
+    console.error("Sale allocation farmers query failed:", error.message);
 
     return res.status(500).json({
       success: false,
-      message: "Unexpected error retrieving sale allocations."
+      message: "Could not retrieve allocation farmer details."
     });
   }
+
+  farmers = data ?? [];
+}
+
+// 3. Retrieve payments linked to these allocations.
+const allocationIds = allocationRows.map(item => item.id);
+
+let payments: any[] = [];
+
+if (allocationIds.length > 0) {
+  const { data, error } = await supabase
+    .from("payment_records")
+    .select(`
+      id,
+      allocation_id,
+      payment_reference,
+      amount_rwf,
+      payment_method,
+      payment_date,
+      status
+    `)
+    .in("allocation_id", allocationIds)
+    .order("payment_date", { ascending: false });
+
+  if (error) {
+    console.error("Sale allocation payments query failed:", error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: "Could not retrieve allocation payment records."
+    });
+  }
+
+  payments = data ?? [];
+}
+
+// 4. Combine farmer details and payment progress.
+const enrichedAllocations = allocationRows.map(allocation => {
+  const farmer = farmers.find(
+    item => item.id === allocation.farmer_id
+  );
+
+  const farmerPayments = payments.filter(
+    payment => payment.allocation_id === allocation.id
+  );
+
+  const paidRwf = farmerPayments
+    .filter(payment => payment.status === "recorded")
+    .reduce(
+      (sum, payment) => sum + Number(payment.amount_rwf),
+      0
+    );
+
+  const allocatedRwf = Number(allocation.net_amount_rwf);
+
+  return {
+    ...allocation,
+    farmer_name: farmer?.full_name ?? "Unknown farmer",
+    farmer_code: farmer?.farmer_code ?? "N/A",
+    payments: farmerPayments,
+    paidRwf,
+    outstandingRwf: Math.max(0, allocatedRwf - paidRwf),
+    overpaidRwf: Math.max(0, paidRwf - allocatedRwf)
+  };
+});
+
+// 5. Return enriched allocations.
+return res.status(200).json({
+  success: true,
+  count: enrichedAllocations.length,
+  data: enrichedAllocations
+});
+
+} catch (error) {
+  console.error("Sale allocations error:", error);
+
+  return res.status(500).json({
+    success: false,
+    message: "Unexpected error retrieving sale allocations."
+  });
+}
 });
 
 export default router;

@@ -1,5 +1,5 @@
 
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { supabase } from "../config/supabase";
 import {
   requireAuth,
@@ -35,8 +35,8 @@ router.get("/", ...farmerAccess, async (req, res) => {
 
     // Farmers can only see their own deliveries
     if (req.user!.role === "farmer") {
-      query = query.eq("farmer_id", req.user!.id);
-    } else if (farmerId !== undefined) {
+  query = query.eq("farmer_id", req.user!.farmerId!);
+} else if (farmerId !== undefined) {
       if (
         typeof farmerId !== "string" ||
         !uuidPattern.test(farmerId)
@@ -99,9 +99,9 @@ router.get("/:id", ...farmerAccess, async (req, res) => {
       .eq("cooperative_id", req.user!.cooperativeId);
 
     // Farmers can only see their own deliveries
-    if (req.user!.role === "farmer") {
-      query = query.eq("farmer_id", req.user!.id);
-    }
+   if (req.user!.role === "farmer") {
+  query = query.eq("farmer_id", req.user!.farmerId!);
+}
 
     const { data, error } = await query.maybeSingle();
 
@@ -267,5 +267,131 @@ router.post("/", ...staffAccess, async (req, res) => {
     });
   }
 });
+
+
+async function submitFarmerResponse(
+  req: Request,
+  res: Response,
+  response: "confirmed" | "disputed"
+) {
+  try {
+    const { id } = req.params;
+
+    if (typeof id !== "string" || !uuidPattern.test(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid delivery ID."
+      });
+    }
+
+    const note =
+      typeof req.body?.note === "string"
+        ? req.body.note.trim()
+        : null;
+
+    if (note && note.length > 1000) {
+      return res.status(400).json({
+        success: false,
+        message: "Your response note must not exceed 1000 characters."
+      });
+    }
+
+    if (response === "disputed" && !note) {
+      return res.status(400).json({
+        success: false,
+        message: "Please explain why you are disputing this delivery."
+      });
+    }
+
+    const { data, error } = await supabase.rpc(
+  "respond_to_delivery",
+  {
+    p_delivery_id: id,
+    p_farmer_id: req.user!.farmerId!,
+    p_actor_id: req.user!.id,
+    p_cooperative_id: req.user!.cooperativeId,
+    p_response: response,
+    p_note: note
+  }
+);
+
+    if (error) {
+      console.error("Farmer delivery response failed:", error);
+
+      const message = error.message || "";
+
+      if (message.includes("DELIVERY_NOT_FOUND")) {
+        return res.status(404).json({
+          success: false,
+          message: "Delivery not found."
+        });
+      }
+
+      if (message.includes("RESPONSE_ALREADY_SUBMITTED")) {
+        return res.status(409).json({
+          success: false,
+          message: "You have already responded to this delivery."
+        });
+      }
+
+      if (message.includes("DELIVERY_CANCELLED")) {
+        return res.status(409).json({
+          success: false,
+          message: "A cancelled delivery cannot receive a response."
+        });
+      }
+
+      if (message.includes("DISPUTE_REASON_REQUIRED")) {
+        return res.status(400).json({
+          success: false,
+          message: "A dispute reason is required."
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message: "Could not submit your delivery response."
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message:
+        response === "confirmed"
+          ? "Delivery confirmed successfully."
+          : "Delivery dispute submitted successfully.",
+      data
+    });
+
+  } catch (error) {
+    console.error("Farmer response error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Could not submit your delivery response."
+    });
+  }
+}
+
+// Farmer confirms their delivery.
+router.post(
+  "/:id/confirm",
+  requireAuth,
+  requireRole("farmer"),
+  async (req: Request, res: Response) => {
+    return submitFarmerResponse(req, res, "confirmed");
+  }
+);
+
+// Farmer disputes their delivery.
+router.post(
+  "/:id/dispute",
+  requireAuth,
+  requireRole("farmer"),
+  async (req: Request, res: Response) => {
+    return submitFarmerResponse(req, res, "disputed");
+  }
+);
+
 
 export default router;

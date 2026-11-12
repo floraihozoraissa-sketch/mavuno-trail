@@ -61,6 +61,7 @@ router.get("/", ...staffAccess, async (req, res) => {
 });
 
 // GET one sale with its batch items
+
 router.get("/:id", ...staffAccess, async (req, res) => {
   try {
     const id = req.params.id;
@@ -76,6 +77,7 @@ router.get("/:id", ...staffAccess, async (req, res) => {
       });
     }
 
+    // 1. Retrieve sale.
     const { data: sale, error: saleError } = await supabase
       .from("sales")
       .select("*")
@@ -99,6 +101,7 @@ router.get("/:id", ...staffAccess, async (req, res) => {
       });
     }
 
+    // 2. Retrieve sale items.
     const { data: items, error: itemsError } = await supabase
       .from("sale_batch_items")
       .select(`
@@ -119,15 +122,150 @@ router.get("/:id", ...staffAccess, async (req, res) => {
       });
     }
 
+    // 3. Retrieve allocations belonging to this sale.
+    const itemIds = (items ?? []).map(item => item.id);
+
+    let allocations: any[] = [];
+
+    if (itemIds.length > 0) {
+      const { data, error } = await supabase
+        .from("farmer_allocations")
+        .select(`
+          id,
+          sale_batch_item_id,
+          farmer_id,
+          eligible_quantity_kg,
+          contribution_share,
+          gross_amount_rwf,
+          deductions_rwf,
+          net_amount_rwf,
+          status,
+          approved_at
+        `)
+        .in("sale_batch_item_id", itemIds);
+
+      if (error) throw error;
+
+      allocations = data ?? [];
+    }
+
+    // 4. Retrieve farmer details.
+    const farmerIds = [
+      ...new Set(allocations.map(item => item.farmer_id))
+    ];
+
+    let farmers: any[] = [];
+
+    if (farmerIds.length > 0) {
+      const { data, error } = await supabase
+        .from("farmers")
+        .select("id, farmer_code, full_name")
+        .eq("cooperative_id", cooperativeId)
+        .in("id", farmerIds);
+
+      if (error) throw error;
+
+      farmers = data ?? [];
+    }
+
+    // 5. Retrieve payments linked to these allocations.
+    const allocationIds = allocations.map(item => item.id);
+
+    let payments: any[] = [];
+
+    if (allocationIds.length > 0) {
+      const { data, error } = await supabase
+        .from("payment_records")
+        .select(`
+          id,
+          allocation_id,
+          payment_reference,
+          amount_rwf,
+          payment_method,
+          payment_date,
+          status
+        `)
+        .in("allocation_id", allocationIds)
+        .order("payment_date", { ascending: false });
+
+      if (error) throw error;
+
+      payments = data ?? [];
+    }
+
+    // 6. Enrich allocations with farmer and payment information.
+    const enrichedAllocations = allocations.map(allocation => {
+      const farmer = farmers.find(
+        item => item.id === allocation.farmer_id
+      );
+
+      const farmerPayments = payments.filter(
+        payment => payment.allocation_id === allocation.id
+      );
+
+      const paidRwf = farmerPayments
+        .filter(payment => payment.status === "recorded")
+        .reduce(
+          (sum, payment) => sum + Number(payment.amount_rwf),
+          0
+        );
+
+      const allocatedRwf = Number(allocation.net_amount_rwf);
+
+      return {
+        ...allocation,
+        farmer_name: farmer?.full_name ?? "Unknown farmer",
+        farmer_code: farmer?.farmer_code ?? "N/A",
+        payments: farmerPayments,
+        paidRwf,
+        outstandingRwf: Math.max(0, allocatedRwf - paidRwf),
+        overpaidRwf: Math.max(0, paidRwf - allocatedRwf)
+      };
+    });
+
+    // 7. Attach allocations to their sale items.
+    const enrichedItems = (items ?? []).map(item => ({
+      ...item,
+      allocations: enrichedAllocations.filter(
+        allocation => allocation.sale_batch_item_id === item.id
+      )
+    }));
+
+    // 8. Calculate sale-level reconciliation.
+    const totalAllocatedRwf = enrichedAllocations.reduce(
+      (sum, item) => sum + Number(item.net_amount_rwf),
+      0
+    );
+
+    const totalPaidRwf = enrichedAllocations.reduce(
+      (sum, item) => sum + item.paidRwf,
+      0
+    );
+
+    const saleNetRwf = Number(sale.net_amount_rwf);
+
+    const reconciliation = {
+      saleNetRwf,
+      totalAllocatedRwf,
+      unallocatedRwf: saleNetRwf - totalAllocatedRwf,
+      totalPaidRwf,
+      outstandingRwf: enrichedAllocations.reduce(
+        (sum, item) => sum + item.outstandingRwf,
+        0
+      )
+    };
+
+    // 9. Return complete sale details.
     return res.status(200).json({
       success: true,
       data: {
         ...sale,
-        items: items ?? [],
+        items: enrichedItems,
         totalQuantityKg: (items ?? []).reduce(
           (sum, item) => sum + Number(item.quantity_kg),
           0
-        )
+        ),
+        reconciliation
       }
     });
 
@@ -140,7 +278,6 @@ router.get("/:id", ...staffAccess, async (req, res) => {
     });
   }
 });
-
 
 router.post("/", ...staffAccess, async (req, res) => {
   try {

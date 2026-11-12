@@ -21,12 +21,16 @@ router.get("/farmer/:farmerId", requireAuth, requireRole("manager", "staff", "fa
     }
 
     // Farmers can only access their own statement
-    if (req.user!.role === "farmer" && req.user!.id !== farmerId) {
-      return res.status(403).json({
-        success: false,
-        message: "You can only access your own statement."
-      });
-    }
+    // Farmers can only access their own statement
+if (
+  req.user!.role === "farmer" &&
+  req.user!.farmerId !== farmerId
+) {
+  return res.status(403).json({
+    success: false,
+    message: "You can only access your own statement."
+  });
+}
 
     // Retrieve farmer
     const { data: farmer, error: farmerError } = await supabase

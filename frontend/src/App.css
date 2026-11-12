@@ -331,3 +331,2301 @@
     gap: 7px;
   }
 }
+
+/* =========================================
+   MAVUNOTRAIL — STAFF DASHBOARD REFRESH
+   ========================================= */
+
+.dashboard-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px 28px;
+  margin-bottom: 22px;
+  background: linear-gradient(115deg, #edf4ec 0%, #f7f6ef 75%);
+  border: 1px solid #e0e9dd;
+  border-radius: 18px;
+}
+
+.dashboard-welcome h2 {
+  margin: 7px 0;
+  color: #245b45;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.dashboard-welcome p {
+  max-width: 590px;
+  margin: 0;
+  color: #68776e;
+  line-height: 1.6;
+}
+
+.dashboard-season {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  padding: 10px 14px;
+  color: #315d45;
+  background: #fff;
+  border: 1px solid #dce8dc;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.season-dot {
+  width: 8px;
+  height: 8px;
+  background: #4c9564;
+  border-radius: 50%;
+}
+
+.dashboard-stats {
+  margin-bottom: 22px;
+}
+
+.dashboard-stat {
+  min-width: 0;
+  border: 1px solid #e9eae3;
+  box-shadow: 0 3px 14px rgba(37, 65, 48, 0.035);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.dashboard-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(37, 65, 48, 0.075);
+}
+
+.dashboard-stat strong {
+  overflow-wrap: anywhere;
+  font-size: clamp(20px, 2vw, 27px);
+  letter-spacing: -0.7px;
+}
+
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.85fr);
+  gap: 20px;
+  align-items: stretch;
+  margin-bottom: 22px;
+}
+
+.dashboard-main-grid > .panel {
+  min-width: 0;
+  height: 100%;
+}
+
+.dashboard-journey,
+.dashboard-allocation {
+  padding: 24px;
+}
+
+.dashboard-intro {
+  margin: 12px 0 22px;
+  color: #78837c;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.dashboard-process {
+  display: grid;
+  gap: 0;
+}
+
+.dashboard-process-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 9px 0;
+}
+
+.dashboard-process-number {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  color: #245b45;
+  background: #eaf2e9;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.dashboard-process-number.step-1 {
+  color: #8a6729;
+  background: #f8f0dc;
+}
+
+.dashboard-process-number.step-2 {
+  color: #65558a;
+  background: #f0edf8;
+}
+
+.dashboard-process-number.step-3 {
+  color: #386d92;
+  background: #eaf2f7;
+}
+
+.dashboard-process-number.step-4 {
+  color: #397451;
+  background: #e9f3ec;
+}
+
+.dashboard-process-step > div {
+  display: grid;
+  gap: 4px;
+}
+
+.dashboard-process-step strong {
+  color: #2b3d33;
+  font-size: 14px;
+}
+
+.dashboard-process-step small {
+  color: #849087;
+  font-size: 12px;
+}
+
+.dashboard-process-arrow {
+  margin-left: auto;
+  color: #a8b3aa;
+  font-size: 18px;
+}
+
+.dashboard-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 17px 0;
+  padding: 13px 14px;
+  color: #63756a;
+  background: #f5f7f2;
+  border-radius: 10px;
+}
+
+.dashboard-note > span {
+  color: #4b7958;
+  font-size: 16px;
+}
+
+.dashboard-note p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.dashboard-action {
+  width: 100%;
+}
+
+.dashboard-allocation-total {
+  margin: 25px 0;
+  color: #245b45;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: clamp(25px, 2.5vw, 34px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  overflow-wrap: anywhere;
+}
+
+.dashboard-allocation-total small {
+  display: block;
+  margin-top: 5px;
+  color: #849087;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.dashboard-allocation-rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 25px;
+  padding: 16px;
+  background: #f7f6f0;
+  border: 1px solid #eeece2;
+  border-radius: 12px;
+}
+
+.dashboard-rule-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: #80652f;
+  background: #f1e8d3;
+  border-radius: 9px;
+  font-weight: 800;
+}
+
+.dashboard-allocation-rule strong {
+  color: #34483a;
+  font-size: 13px;
+}
+
+.dashboard-allocation-rule p {
+  margin: 6px 0 0;
+  color: #78837c;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.dashboard-recent {
+  margin-bottom: 18px;
+}
+
+.dashboard-panel-description {
+  margin: 5px 0 0;
+  color: #849087;
+  font-size: 13px;
+}
+
+.dashboard-financial-strip {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 17px 22px;
+  background: #fff;
+  border: 1px solid #e9eae3;
+  border-radius: 14px;
+}
+
+.dashboard-financial-strip > div {
+  display: grid;
+  gap: 5px;
+}
+
+.dashboard-financial-strip span {
+  color: #829087;
+  font-size: 12px;
+}
+
+.dashboard-financial-strip strong {
+  color: #2e4c3a;
+  font-size: 17px;
+}
+
+.dashboard-financial-strip p {
+  margin: 0 0 0 auto;
+  color: #849087;
+  font-size: 11px;
+  text-align: right;
+}
+
+@media (max-width: 1050px) {
+  .dashboard-main-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard-welcome {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .dashboard-welcome h2 {
+    font-size: 22px;
+  }
+
+  .dashboard-journey,
+  .dashboard-allocation {
+    padding: 18px;
+  }
+
+  .dashboard-financial-strip {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .dashboard-financial-strip p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .dashboard-process-step {
+    min-height: 59px;
+  }
+
+  .dashboard-process-arrow {
+    display: none;
+  }
+}
+/* Hide the tagline in compact sidebar branding */
+.brand:not(.brand-large) .brand-name small {
+  display: none;
+}
+
+
+/* =========================================
+   MAVUNOTRAIL — FARMERS DIRECTORY READABILITY
+   ========================================= */
+
+/* Table headings */
+.panel table th {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.35px;
+}
+
+/* Farmer names and other table information */
+.panel table td {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Make farmer names stand out */
+.panel table td strong,
+.panel table td b {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Table action buttons and links */
+.panel table td button,
+.panel table td a {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Search field */
+.panel input {
+  font-size: 15px;
+}
+
+/* Directory count and section labels */
+.panel .eyebrow,
+.panel > div > span {
+  font-size: 13px;
+}
+
+/* Give table rows a little more breathing room */
+.panel table td {
+  padding-top: 17px;
+  padding-bottom: 17px;
+}
+
+/* Mobile readability */
+@media (max-width: 650px) {
+  .panel table th {
+    font-size: 13px;
+  }
+
+  .panel table td {
+    font-size: 14px;
+  }
+
+  .panel table td button,
+  .panel table td a {
+    font-size: 13px;
+  }
+}
+
+
+/* =========================================
+   MAVUNOTRAIL — FARMER PROFILE
+   ========================================= */
+
+.farmer-record {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+
+.farmer-record > .text-button {
+  justify-self: start;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 0;
+}
+
+.farmer-record-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 26px;
+  background: linear-gradient(115deg, #edf4ec, #f8f7f1);
+  border: 1px solid #e0e9dd;
+  border-radius: 18px;
+}
+
+.farmer-initial {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  color: #fff;
+  background: #245b45;
+  border-radius: 18px;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.farmer-record-head h2,
+.farmer-record-head h3 {
+  margin: 0 0 6px;
+  color: #263d30;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.farmer-record-head p {
+  margin: 0;
+  color: #718078;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.farmer-record-head .status {
+  margin-left: auto;
+}
+
+.record-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.record-stats > * {
+  min-width: 0;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e6eae3;
+  border-radius: 15px;
+  box-shadow: 0 3px 14px rgba(37, 65, 48, 0.035);
+}
+
+.record-stats strong {
+  display: block;
+  margin-top: 9px;
+  color: #245b45;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: 25px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.record-stats span,
+.record-stats small {
+  color: #78857c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.farmer-record h3 {
+  margin: 8px 0 14px;
+  color: #293e32;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.farmer-record .table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e8ebe5;
+  border-radius: 13px;
+}
+
+.farmer-record .table-wrap table {
+  min-width: 620px;
+}
+
+.farmer-record .table-wrap th {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.farmer-record .table-wrap td {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.farmer-record .table-note {
+  margin-top: 12px;
+  padding: 13px 15px;
+  color: #65766b;
+  background: #f3f6f1;
+  border: 1px solid #e6ece3;
+  border-radius: 11px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 750px) {
+  .record-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .farmer-record-head {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .record-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .farmer-record-head {
+    gap: 13px;
+  }
+
+  .farmer-record-head h2,
+  .farmer-record-head h3 {
+    font-size: 20px;
+  }
+
+  .farmer-record-head .status {
+    margin-left: 0;
+  }
+}
+
+/* =========================================
+   MAVUNOTRAIL — DELIVERIES DIRECTORY
+   ========================================= */
+
+.deliveries-page {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+
+.deliveries-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.deliveries-heading h2 {
+  margin: 7px 0 5px;
+  color: #263d30;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.deliveries-heading p,
+.deliveries-table-description {
+  margin: 0;
+  color: #78857c;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.deliveries-create-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 0 19px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.deliveries-create-button svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.deliveries-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.deliveries-summary-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e7eae3;
+  border-radius: 15px;
+  box-shadow: 0 3px 14px rgba(37, 65, 48, 0.035);
+}
+
+.deliveries-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  border-radius: 13px;
+}
+
+.deliveries-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.deliveries-icon.green {
+  color: #397451;
+  background: #eaf3eb;
+}
+
+.deliveries-icon.gold {
+  color: #96702e;
+  background: #f8f1df;
+}
+
+.deliveries-icon.neutral {
+  color: #687a70;
+  background: #eff2ed;
+}
+
+.deliveries-summary-card > div {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.deliveries-summary-card > div > span {
+  color: #77847b;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.deliveries-summary-card strong {
+  color: #294b37;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: clamp(21px, 2vw, 27px);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.deliveries-summary-card small {
+  color: #8a958d;
+  font-size: 12px;
+}
+
+.deliveries-summary-tip p {
+  margin: 0;
+  color: #78857c;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.deliveries-table-panel {
+  min-width: 0;
+}
+
+.deliveries-table-panel .panel-head {
+  align-items: center;
+  gap: 18px;
+}
+
+.deliveries-table-panel .panel-head h2 {
+  margin: 6px 0;
+  color: #2c4033;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.deliveries-table-panel .panel-head > div {
+  min-width: 0;
+}
+
+.deliveries-table-panel .panel-head > :last-child {
+  flex-shrink: 0;
+}
+
+.deliveries-table-panel table th {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.deliveries-table-panel table td {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 950px) {
+  .deliveries-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .deliveries-summary-tip {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 650px) {
+  .deliveries-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .deliveries-heading h2 {
+    font-size: 23px;
+  }
+
+  .deliveries-create-button {
+    width: 100%;
+  }
+
+  .deliveries-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .deliveries-summary-tip {
+    grid-column: auto;
+  }
+
+  .deliveries-summary-card {
+    padding: 17px;
+  }
+
+  .deliveries-table-panel .panel-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .deliveries-table-panel .panel-head > :last-child {
+    width: 100%;
+  }
+}
+
+/* Farmer navigation icon refresh */
+.farmer-bottom button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.farmer-bottom button svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.farmer-bottom button.selected {
+  color: #245b45;
+}
+
+
+/* =========================================
+   MAVUNOTRAIL — STAFF SIDEBAR ICON SYSTEM
+   ========================================= */
+
+.side-nav button {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.side-nav .nav-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  color: #87958b;
+  transition: color 160ms ease;
+}
+
+.side-nav .nav-icon svg {
+  display: block;
+  width: 21px;
+  height: 21px;
+}
+
+.side-nav button.active .nav-icon {
+  color: #245b45;
+}
+
+.side-nav button:hover .nav-icon {
+  color: #397451;
+}
+
+
+/* =========================================
+   MAVUNOTRAIL — RECORD DELIVERY FORM
+   ========================================= */
+
+.delivery-form-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-bottom: 24px;
+  padding: 15px;
+  background: #f1f6ef;
+  border: 1px solid #e3ecdf;
+  border-radius: 12px;
+}
+
+.delivery-form-intro-icon,
+.delivery-form-section-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  color: #397451;
+  background: #e5f0e5;
+  border-radius: 11px;
+}
+
+.delivery-form-intro-icon svg,
+.delivery-form-section-icon svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.delivery-form-intro p {
+  margin: 0;
+  color: #63756a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.delivery-form-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 23px 0 15px;
+}
+
+.delivery-form-section-heading > div {
+  display: grid;
+  gap: 4px;
+}
+
+.delivery-form-section-heading strong {
+  color: #2d4435;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.delivery-form-section-heading small {
+  color: #849087;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.delivery-form-section-icon.gold {
+  color: #96702e;
+  background: #f8f1df;
+}
+
+.delivery-form-grid {
+  row-gap: 18px;
+}
+
+.delivery-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  color: #394b3f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.delivery-form-grid input,
+.delivery-form-grid select,
+.delivery-form-grid textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 45px;
+  padding: 11px 13px;
+  color: #293d31;
+  background: #fff;
+  border: 1px solid #dfe5dd;
+  border-radius: 9px;
+  outline: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.delivery-form-grid input:focus,
+.delivery-form-grid select:focus,
+.delivery-form-grid textarea:focus {
+  border-color: #57906a;
+  box-shadow: 0 0 0 3px rgba(57, 116, 81, 0.11);
+}
+
+.delivery-form-grid input::placeholder,
+.delivery-form-grid textarea::placeholder {
+  color: #a0aaa2;
+  font-weight: 400;
+}
+
+.delivery-form-grid textarea {
+  min-height: 95px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.delivery-quantity-field input {
+  color: #245b45;
+  background: #f7faf6;
+  font-family: var(--heading, "Manrope", sans-serif);
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.delivery-quantity-field small {
+  color: #849087;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.delivery-notes-field .optional {
+  margin-left: 5px;
+  color: #929d94;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.delivery-form-footnote {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 20px 0;
+  padding: 12px 14px;
+  background: #f7f7f2;
+  border-radius: 10px;
+}
+
+.delivery-form-footnote svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  margin-top: 1px;
+  fill: none;
+  stroke: #758477;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.delivery-form-footnote p {
+  margin: 0;
+  color: #78857c;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 560px) {
+  .delivery-form-intro {
+    padding: 12px;
+  }
+
+  .delivery-form-section-heading {
+    margin-top: 20px;
+  }
+
+  .delivery-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .delivery-form-grid .span-2 {
+    grid-column: auto;
+  }
+}
+
+/* MAVUNOTRAIL — DELIVERY RECEIPT */
+
+.receipt-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px 0 32px;
+}
+
+.receipt-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e8ece7;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 8px 30px rgba(35, 72, 51, 0.06);
+}
+
+.receipt-brand {
+  padding-bottom: 22px;
+  border-bottom: 1px solid #edf0eb;
+}
+
+.receipt-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px 16px 26px;
+}
+
+.receipt-check {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e7f3e9;
+  color: #267348;
+  margin-bottom: 18px;
+}
+
+.receipt-check svg {
+  width: 29px;
+  height: 29px;
+}
+
+.receipt-top .eyebrow {
+  color: #398057;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.receipt-top h2 {
+  margin: 9px 0 7px;
+  color: #203d2d;
+  font-family: var(--heading);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.receipt-top p {
+  max-width: 440px;
+  margin: 0;
+  color: #78847b;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.receipt-reference {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px;
+  background: #f3f7f2;
+  border: 1px solid #e5eee4;
+  border-radius: 13px;
+}
+
+.receipt-reference > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.receipt-reference > div > span {
+  color: #77847a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.receipt-reference > div > strong {
+  color: #245b45;
+  font-size: 19px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.receipt-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 22px;
+  border: 1px solid #edf0eb;
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.receipt-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 19px 20px;
+  border-bottom: 1px solid #edf0eb;
+}
+
+.receipt-detail:nth-child(odd) {
+  border-right: 1px solid #edf0eb;
+}
+
+.receipt-detail:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.receipt-detail-wide {
+  grid-column: 1 / -1;
+  border-right: 0 !important;
+  border-top: 1px solid #edf0eb;
+  border-bottom: 0;
+}
+
+.receipt-detail > span {
+  color: #7d8980;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.receipt-detail > strong {
+  color: #293c30;
+  font-size: 16px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.receipt-detail > small {
+  color: #8a958c;
+  font-size: 13px;
+}
+
+.receipt-next {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 22px;
+  padding: 19px;
+  background: #fbf8ef;
+  border: 1px solid #f0ead9;
+  border-radius: 13px;
+}
+
+.next-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: #f2e8cc;
+  color: #896c2e;
+}
+
+.next-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.receipt-next > div:last-child {
+  min-width: 0;
+}
+
+.receipt-next strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #4e452f;
+  font-size: 15px;
+}
+
+.receipt-next p {
+  margin: 0;
+  color: #756e5d;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.receipt-audit-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 15px 17px;
+  background: #f6f8fa;
+  border: 1px solid #e9edf0;
+  border-radius: 12px;
+}
+
+.receipt-audit-note > svg {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  color: #647b8a;
+}
+
+.receipt-audit-note p {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  min-width: 0;
+}
+
+.receipt-audit-note strong {
+  color: #405461;
+  font-size: 13px;
+}
+
+.receipt-audit-note span {
+  color: #71808a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.receipt-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+  padding-top: 22px;
+  border-top: 1px solid #edf0eb;
+}
+
+.receipt-actions button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 19px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.receipt-actions .button.primary {
+  background: #245b45;
+  color: #ffffff;
+  border: 1px solid #245b45;
+}
+
+.receipt-actions .button.primary:hover {
+  background: #194832;
+}
+
+.receipt-actions .button.outline {
+  background: #ffffff;
+  color: #42604d;
+  border: 1px solid #dce5dd;
+}
+
+.receipt-actions .button.outline:hover {
+  background: #f5f8f4;
+}
+
+@media (max-width: 640px) {
+  .receipt-page {
+    padding: 0 0 24px;
+  }
+
+  .receipt-card {
+    padding: 20px 16px;
+    border-radius: 15px;
+  }
+
+  .receipt-top {
+    padding: 25px 5px 22px;
+  }
+
+  .receipt-top h2 {
+    font-size: 24px;
+  }
+
+  .receipt-reference {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .receipt-reference > div > strong {
+    font-size: 16px;
+  }
+
+  .receipt-detail {
+    padding: 15px 12px;
+  }
+
+  .receipt-detail > strong {
+    font-size: 14px;
+  }
+
+  .receipt-actions {
+    flex-direction: column-reverse;
+  }
+
+  .receipt-actions button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 360px) {
+  .receipt-details {
+    grid-template-columns: 1fr;
+  }
+
+  .receipt-detail,
+  .receipt-detail:nth-child(odd) {
+    border-right: 0;
+    border-bottom: 1px solid #edf0eb;
+  }
+
+  .receipt-detail:last-child {
+    border-bottom: 0;
+  }
+
+  .receipt-detail-wide {
+    grid-column: auto;
+  }
+}
+
+/* MAVUNOTRAIL — DELIVERY RECEIPT */
+
+.receipt-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px 0 32px;
+}
+
+.receipt-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e8ece7;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 8px 30px rgba(35, 72, 51, 0.06);
+}
+
+.receipt-brand {
+  padding-bottom: 22px;
+  border-bottom: 1px solid #edf0eb;
+}
+
+.receipt-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px 16px 26px;
+}
+
+.receipt-check {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e7f3e9;
+  color: #267348;
+  margin-bottom: 18px;
+}
+
+.receipt-check svg {
+  width: 29px;
+  height: 29px;
+}
+
+.receipt-top .eyebrow {
+  color: #398057;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.receipt-top h2 {
+  margin: 9px 0 7px;
+  color: #203d2d;
+  font-family: var(--heading);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.receipt-top p {
+  max-width: 440px;
+  margin: 0;
+  color: #78847b;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.receipt-reference {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px;
+  background: #f3f7f2;
+  border: 1px solid #e5eee4;
+  border-radius: 13px;
+}
+
+.receipt-reference > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.receipt-reference > div > span {
+  color: #77847a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.receipt-reference > div > strong {
+  color: #245b45;
+  font-size: 19px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.receipt-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 22px;
+  border: 1px solid #edf0eb;
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.receipt-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 19px 20px;
+  border-bottom: 1px solid #edf0eb;
+}
+
+.receipt-detail:nth-child(odd) {
+  border-right: 1px solid #edf0eb;
+}
+
+.receipt-detail:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.receipt-detail-wide {
+  grid-column: 1 / -1;
+  border-right: 0 !important;
+  border-top: 1px solid #edf0eb;
+  border-bottom: 0;
+}
+
+.receipt-detail > span {
+  color: #7d8980;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.receipt-detail > strong {
+  color: #293c30;
+  font-size: 16px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.receipt-detail > small {
+  color: #8a958c;
+  font-size: 13px;
+}
+
+.receipt-next {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 22px;
+  padding: 19px;
+  background: #fbf8ef;
+  border: 1px solid #f0ead9;
+  border-radius: 13px;
+}
+
+.next-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: #f2e8cc;
+  color: #896c2e;
+}
+
+.next-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.receipt-next > div:last-child {
+  min-width: 0;
+}
+
+.receipt-next strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #4e452f;
+  font-size: 15px;
+}
+
+.receipt-next p {
+  margin: 0;
+  color: #756e5d;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.receipt-audit-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 15px 17px;
+  background: #f6f8fa;
+  border: 1px solid #e9edf0;
+  border-radius: 12px;
+}
+
+.receipt-audit-note > svg {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  color: #647b8a;
+}
+
+.receipt-audit-note p {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  min-width: 0;
+}
+
+.receipt-audit-note strong {
+  color: #405461;
+  font-size: 13px;
+}
+
+.receipt-audit-note span {
+  color: #71808a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.receipt-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+  padding-top: 22px;
+  border-top: 1px solid #edf0eb;
+}
+
+.receipt-actions button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 19px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.receipt-actions .button.primary {
+  background: #245b45;
+  color: #ffffff;
+  border: 1px solid #245b45;
+}
+
+.receipt-actions .button.primary:hover {
+  background: #194832;
+}
+
+.receipt-actions .button.outline {
+  background: #ffffff;
+  color: #42604d;
+  border: 1px solid #dce5dd;
+}
+
+.receipt-actions .button.outline:hover {
+  background: #f5f8f4;
+}
+
+@media (max-width: 640px) {
+  .receipt-page {
+    padding: 0 0 24px;
+  }
+
+  .receipt-card {
+    padding: 20px 16px;
+    border-radius: 15px;
+  }
+
+  .receipt-top {
+    padding: 25px 5px 22px;
+  }
+
+  .receipt-top h2 {
+    font-size: 24px;
+  }
+
+  .receipt-reference {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .receipt-reference > div > strong {
+    font-size: 16px;
+  }
+
+  .receipt-detail {
+    padding: 15px 12px;
+  }
+
+  .receipt-detail > strong {
+    font-size: 14px;
+  }
+
+  .receipt-actions {
+    flex-direction: column-reverse;
+  }
+
+  .receipt-actions button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 360px) {
+  .receipt-details {
+    grid-template-columns: 1fr;
+  }
+
+  .receipt-detail,
+  .receipt-detail:nth-child(odd) {
+    border-right: 0;
+    border-bottom: 1px solid #edf0eb;
+  }
+
+  .receipt-detail:last-child {
+    border-bottom: 0;
+  }
+
+  .receipt-detail-wide {
+    grid-column: auto;
+  }
+}
+
+/* MAVUNOTRAIL — BATCH INVENTORY */
+
+.batches-page {
+  width: 100%;
+  min-width: 0;
+}
+
+.batches-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.batches-heading h1 {
+  margin: 7px 0 6px;
+  color: #243d2e;
+  font-family: var(--heading);
+  font-size: 29px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.batches-heading p {
+  margin: 0;
+  color: #78847c;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.batches-create {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  flex-shrink: 0;
+  padding: 0 18px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.batches-create > span {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.batches-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.batch-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e9eee8;
+  border-radius: 13px;
+  box-shadow: 0 3px 12px rgba(35, 72, 51, 0.035);
+}
+
+.batch-summary-icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: #eaf3eb;
+  color: #36744c;
+}
+
+.batch-summary-icon.quantity {
+  background: #f5f0e3;
+  color: #9a7939;
+}
+
+.batch-summary-icon.deliveries {
+  background: #edf1f6;
+  color: #607a9a;
+}
+
+.batch-summary-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.batch-summary-card > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.batch-summary-card span {
+  color: #7a867d;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.batch-summary-card strong {
+  color: #263d2e;
+  font-family: var(--heading);
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.batch-summary-card small {
+  color: #929c94;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.batches-table-panel {
+  min-width: 0;
+}
+
+.batches-table-panel .panel-head {
+  padding-bottom: 19px;
+}
+
+.batches-table-panel .panel-head h2 {
+  margin-top: 5px;
+  color: #293d30;
+  font-family: var(--heading);
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.batches-table-panel .row-action {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .batches-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .batch-summary-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .batches-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .batches-heading h1 {
+    font-size: 25px;
+  }
+
+  .batches-create {
+    width: 100%;
+  }
+
+  .batches-summary {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+
+  .batch-summary-card:last-child {
+    grid-column: auto;
+  }
+
+  .batch-summary-card {
+    padding: 16px;
+  }
+
+  .batch-summary-card strong {
+    font-size: 23px;
+  }
+}
+
+
+/* MAVUNOTRAIL — BATCH DETAILS */
+
+.batch-detail-page {
+  width: 100%;
+  min-width: 0;
+}
+
+.batch-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  margin-bottom: 19px;
+  border: 0;
+  background: transparent;
+  color: #55725f;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.batch-back-button:hover {
+  color: #245b45;
+}
+
+.batch-back-button svg {
+  width: 19px;
+  height: 19px;
+}
+
+.batch-detail-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px;
+  background: #ffffff;
+  border: 1px solid #e7ece6;
+  border-radius: 15px;
+  box-shadow: 0 3px 14px rgba(35, 72, 51, 0.035);
+}
+
+.batch-detail-heading {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-width: 0;
+}
+
+.batch-detail-icon {
+  width: 55px;
+  height: 55px;
+  flex: 0 0 55px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: #eaf3eb;
+  color: #36744c;
+}
+
+.batch-detail-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+.batch-detail-title {
+  min-width: 0;
+}
+
+.batch-detail-title h1 {
+  margin: 6px 0;
+  color: #243d2e;
+  font-family: var(--heading);
+  font-size: 26px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.batch-detail-title p {
+  margin: 0;
+  color: #7b877e;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.batch-detail-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.batch-detail-status > span {
+  color: #849087;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.batch-detail-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin: 19px 0 24px;
+}
+
+.batch-detail-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 19px;
+  background: #ffffff;
+  border: 1px solid #e8ede7;
+  border-radius: 13px;
+}
+
+.batch-detail-stat > span {
+  color: #7a867d;
+  font-size: 13px;
+}
+
+.batch-detail-stat > strong {
+  color: #28563d;
+  font-family: var(--heading);
+  font-size: 25px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.batch-detail-stat > small {
+  color: #929c94;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.batch-contributions-panel {
+  min-width: 0;
+}
+
+.batch-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  padding-bottom: 19px;
+}
+
+.batch-section-heading h2 {
+  margin: 6px 0;
+  color: #293d30;
+  font-family: var(--heading);
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.batch-section-heading p {
+  margin: 0;
+  color: #808b83;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.batch-count {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border: 1px solid #e3ebe3;
+  border-radius: 20px;
+  background: #f4f8f3;
+  color: #47704f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.batch-detail-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-top: 19px;
+  padding: 17px;
+  border: 1px solid #e5ebed;
+  border-radius: 12px;
+  background: #f6f8f9;
+}
+
+.batch-note-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #e8eff2;
+  color: #607d8c;
+}
+
+.batch-note-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.batch-detail-note > div:last-child {
+  min-width: 0;
+}
+
+.batch-detail-note strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #405662;
+  font-size: 14px;
+}
+
+.batch-detail-note p {
+  margin: 0;
+  color: #74838a;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 700px) {
+  .batch-detail-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 19px;
+  }
+
+  .batch-detail-status {
+    align-items: flex-start;
+  }
+
+  .batch-detail-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .batch-detail-stat {
+    padding: 15px;
+  }
+
+  .batch-detail-stat > strong {
+    font-size: 23px;
+  }
+
+  .batch-section-heading {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 420px) {
+  .batch-detail-heading {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .batch-detail-icon {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .batch-detail-title h1 {
+    font-size: 21px;
+  }
+
+  .batch-detail-note {
+    padding: 13px;
+  }
+}
+
+
+.farmer-response-panel {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fbfaf7;
+}
+
+.farmer-response-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.farmer-response-heading > div {
+  display: grid;
+  gap: 6px;
+}
+
+.farmer-response-heading strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.farmer-response-panel .table-note {
+  margin: 12px 0;
+  line-height: 1.6;
+}
+
+.farmer-response-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.farmer-dispute-form {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.farmer-dispute-form label,
+.farmer-response-note strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.farmer-dispute-form textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+  resize: vertical;
+}
+
+.farmer-dispute-form textarea:focus {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+.farmer-dispute-form small,
+.response-timestamp {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.farmer-response-note {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 9px;
+  background: white;
+}
+
+.farmer-response-note p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.farmer-response-panel .alert {
+  margin-top: 12px;
+}
+
+.status-warning {
+  color: #95631c;
+  background: #fff4df;
+}
+
+@media (max-width: 520px) {
+  .farmer-response-panel {
+    padding: 14px;
+  }
+
+  .farmer-response-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .farmer-response-actions {
+    flex-direction: column;
+  }
+
+  .farmer-response-actions .button {
+    width: 100%;
+  }
+}
+
+

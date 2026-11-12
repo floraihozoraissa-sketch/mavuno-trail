@@ -125,9 +125,10 @@ router.get("/allocation/:allocationId", ...staffAccess, async (req, res) => {
 });
 
 
+
+
 router.post("/", ...staffAccess, async (req, res) => {
   try {
-    const cooperativeId = req.user!.cooperativeId;
     const actorId = req.user!.id;
 
     const {
@@ -137,6 +138,7 @@ router.post("/", ...staffAccess, async (req, res) => {
       paymentDate
     } = req.body;
 
+    // Validate allocation ID and payment amount.
     if (
       typeof allocationId !== "string" ||
       !uuidPattern.test(allocationId) ||
@@ -153,134 +155,73 @@ router.post("/", ...staffAccess, async (req, res) => {
       });
     }
 
-    const { data: allocation, error: allocationError } =
-      await supabase
-        .from("farmer_allocations")
-        .select(`
-          id,
-          net_amount_rwf,
-          status,
-          sale_batch_item_id
-        `)
-        .eq("id", allocationId)
-        .eq("status", "approved")
-        .single();
+    // Validate that the date is a real calendar date.
+    const parsedDate = new Date(`${paymentDate}T00:00:00Z`);
 
-    if (allocationError || !allocation) {
-      return res.status(404).json({
-        success: false,
-        message: "Approved allocation not found."
-      });
-    }
-
-    const { data: saleItem, error: saleItemError } =
-      await supabase
-        .from("sale_batch_items")
-        .select("sale_id")
-        .eq("id", allocation.sale_batch_item_id)
-        .single();
-
-    if (saleItemError || !saleItem) {
-      return res.status(404).json({
-        success: false,
-        message: "Related sale item not found."
-      });
-    }
-
-    const { data: sale, error: saleError } =
-      await supabase
-        .from("sales")
-        .select("id")
-        .eq("id", saleItem.sale_id)
-        .eq("cooperative_id", cooperativeId)
-        .single();
-
-    if (saleError || !sale) {
-      return res.status(404).json({
-        success: false,
-        message: "Sale not found."
-      });
-    }
-
-    const { data: existingPayments, error: paymentsError } =
-      await supabase
-        .from("payment_records")
-        .select("amount_rwf")
-        .eq("allocation_id", allocationId)
-        .eq("status", "recorded");
-
-    if (paymentsError) throw paymentsError;
-
-    const alreadyPaid = (existingPayments ?? []).reduce(
-      (sum, payment) => sum + Number(payment.amount_rwf),
-      0
-    );
-
-    const outstanding =
-      Number(allocation.net_amount_rwf) - alreadyPaid;
-
-    if (amountRwf > outstanding) {
+    if (
+      Number.isNaN(parsedDate.getTime()) ||
+      parsedDate.toISOString().slice(0, 10) !== paymentDate
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Payment exceeds the outstanding allocation balance.",
-        data: { outstandingRwf: outstanding }
+        message: "Invalid payment date."
       });
     }
 
-    const { data: payment, error: insertError } =
-      await supabase
-        .from("payment_records")
-        .insert({
-  allocation_id: allocationId,
-  payment_reference: `DEMO-PAY-${Date.now()}`,
-  amount_rwf: amountRwf,
-  payment_method: paymentMethod,
-  payment_date: paymentDate,
-  status: "recorded",
-  notes: "SIMULATION ONLY — no real money was transferred.",
-  external_reference: "DEMO-NOT-A-REAL-TRANSFER",
-  recorded_by: actorId
-})
-        .select()
-        .single();
+    // Call the existing atomic database function.
+    const { data, error } = await supabase.rpc(
+      "record_mavunotrail_payment",
+      {
+        p_allocation_id: allocationId,
+        p_amount_rwf: amountRwf,
+        p_payment_method: paymentMethod,
+        p_payment_date: paymentDate,
+        p_actor_id: actorId
+      }
+    );
 
-    if (insertError) throw insertError;
+    if (error) {
+      console.error("Payment RPC error:", error.message);
 
-    const { error: auditError } = await supabase
-      .from("audit_events")
-      .insert({
-        cooperative_id: cooperativeId,
-        actor_id: actorId,
-        entity_type: "payment",
-        entity_id: payment.id,
-        event_type: "payment_recorded",
-        new_values: {
-          allocation_id: allocationId,
-          amount_rwf: amountRwf,
-          payment_method: paymentMethod,
-          simulated: true
-        },
-        reason: "Simulated payment record."
-      });
+      const message = error.message ?? "";
 
-    if (auditError) {
-      console.error("Payment audit failed:", auditError.message);
+      if (
+        message.includes("Approved allocation not found") ||
+        message.includes("Related sale not found")
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: "Approved allocation not found."
+        });
+      }
 
-      return res.status(500).json({
-        success: false,
-        message: "Payment record created, but its audit event failed. Do not retry.",
-        data: payment
-      });
+      if (
+        message.includes("exceeds outstanding balance") ||
+        message.includes("no outstanding balance")
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Payment exceeds or has no remaining allocation balance."
+        });
+      }
+
+      if (
+        message.includes("Payment amount must be positive") ||
+        message.includes("Invalid payment method")
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid payment information."
+        });
+      }
+
+      throw error;
     }
 
     return res.status(201).json({
       success: true,
       message: "Simulated payment recorded successfully.",
-      data: {
-        payment,
-        totalPaidRwf: alreadyPaid + amountRwf,
-        outstandingRwf: outstanding - amountRwf
-      }
+      data
     });
 
   } catch (error) {
@@ -292,6 +233,8 @@ router.post("/", ...staffAccess, async (req, res) => {
     });
   }
 });
+
+
 
 
 export default router;

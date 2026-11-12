@@ -5,10 +5,12 @@ declare global {
     interface Request {
       user?: {
         id: string;
+        farmerId?: string;
         cooperativeId: string;
         role: "manager" | "staff" | "farmer";
-        walletAddress: string;
+        walletAddress?: string;
       };
     }
+    
   }
 }

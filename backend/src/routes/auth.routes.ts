@@ -246,18 +246,21 @@ router.post("/nonce", async (req, res) => {
 });
 
 // Return the identity contained in the verified JWT
+
 router.get("/me", requireAuth, (req, res) => {
   return res.status(200).json({
     success: true,
     message: "Authenticated user retrieved successfully.",
     data: {
       id: req.user!.id,
+      farmerId: req.user!.farmerId ?? null,
       cooperativeId: req.user!.cooperativeId,
       role: req.user!.role,
       walletAddress: req.user!.walletAddress
     }
   });
 });
+
 
 // Demo farmer authentication - clearly labeled as demonstration only
 // This endpoint allows access to fictional seed farmer records for demonstration purposes
@@ -283,11 +286,20 @@ router.post("/farmer/demo", async (req, res) => {
     }
 
     const { data: farmer, error: farmerError } = await supabase
-      .from("farmers")
-      .select("id, cooperative_id, farmer_code, full_name, village, district, status")
-      .eq("farmer_code", normalizedCode)
-      .eq("status", "active")
-      .maybeSingle();
+  .from("farmers")
+  .select(`
+    id,
+    user_id,
+    cooperative_id,
+    farmer_code,
+    full_name,
+    village,
+    district,
+    status
+  `)
+  .eq("farmer_code", normalizedCode)
+  .eq("status", "active")
+  .maybeSingle();
 
     if (farmerError) {
       console.error("Farmer demo lookup failed:", farmerError.message);
@@ -304,6 +316,34 @@ router.post("/farmer/demo", async (req, res) => {
       });
     }
 
+    if (!farmer.user_id) {
+  return res.status(403).json({
+    success: false,
+    message: "Farmer account is not linked to an application user."
+  });
+}
+
+const { data: appUser, error: appUserError } = await supabase
+  .from("app_users")
+  .select("id, cooperative_id, role, status")
+  .eq("id", farmer.user_id)
+  .eq("cooperative_id", farmer.cooperative_id)
+  .eq("role", "farmer")
+  .eq("status", "active")
+  .maybeSingle();
+
+if (appUserError || !appUser) {
+  console.error(
+    "Farmer application account lookup failed:",
+    appUserError?.message
+  );
+
+  return res.status(403).json({
+    success: false,
+    message: "Farmer application account is unavailable."
+  });
+}
+
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       return res.status(500).json({
@@ -314,13 +354,14 @@ router.post("/farmer/demo", async (req, res) => {
 
     // Issue a demo token with farmer role
     const token = jwt.sign(
-      {
-        sub: farmer.id,
-        cooperativeId: farmer.cooperative_id,
-        role: "farmer",
-        walletAddress: "demo-farmer-" + farmer.farmer_code.toLowerCase(),
-        farmerCode: farmer.farmer_code
-      },
+  {
+    sub: appUser.id,
+    farmerId: farmer.id,
+    cooperativeId: farmer.cooperative_id,
+    role: "farmer",
+    walletAddress: "demo-farmer-" + farmer.farmer_code.toLowerCase(),
+    farmerCode: farmer.farmer_code
+  },
       jwtSecret,
       {
         expiresIn: "2h",
@@ -330,22 +371,23 @@ router.post("/farmer/demo", async (req, res) => {
     );
 
     return res.status(200).json({
-      success: true,
-      message: "Demo farmer access granted. This is a demonstration using fictional records.",
-      data: {
-        token,
-        user: {
-          id: farmer.id,
-          cooperativeId: farmer.cooperative_id,
-          fullName: farmer.full_name,
-          role: "farmer",
-          walletAddress: "demo-farmer-" + farmer.farmer_code.toLowerCase(),
-          farmerCode: farmer.farmer_code,
-          village: farmer.village,
-          district: farmer.district
-        }
-      }
-    });
+  success: true,
+  data: {
+    token,
+    user: {
+      id: appUser.id,
+      farmerId: farmer.id,
+      cooperativeId: farmer.cooperative_id,
+      fullName: farmer.full_name,
+      role: "farmer",
+      walletAddress: `demo-farmer-${farmer.farmer_code.toLowerCase()}`,
+      farmerCode: farmer.farmer_code,
+      village: farmer.village,
+      district: farmer.district
+    }
+  }
+});
+      
 
   } catch (error) {
     console.error("Farmer demo authentication error:", error);

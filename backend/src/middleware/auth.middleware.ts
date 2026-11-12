@@ -45,6 +45,7 @@ export function requireAuth(
 
     const payload = decoded as JwtPayload & {
       cooperativeId?: string;
+      farmerId?: string;
       role?: string;
       walletAddress?: string;
     };
@@ -62,11 +63,12 @@ if (
     }
 
     req.user = {
-      id: payload.sub,
-      cooperativeId: payload.cooperativeId,
-      role: payload.role as "manager" | "staff" | "farmer",
-      walletAddress: payload.walletAddress
-    };
+  id: payload.sub,
+  farmerId: payload.farmerId,
+  cooperativeId: payload.cooperativeId,
+  role: payload.role as "manager" | "staff" | "farmer",
+  walletAddress: payload.walletAddress
+};
 
     return next();
 
@@ -91,6 +93,13 @@ export function requireRole(...allowedRoles: string[]) {
       return res.status(403).json({
         success: false,
         message: "You do not have permission to access this resource."
+      });
+    }
+
+    if (req.user.role === "farmer" && !req.user.farmerId) {
+      return res.status(403).json({
+        success: false,
+        message: "Farmer profile is not linked to this account."
       });
     }
 

@@ -23,19 +23,40 @@ router.get("/events", requireAuth, requireRole("manager", "staff", "farmer"), as
 
     // Farmers can only see audit events for their own deliveries
     if (req.user!.role === "farmer") {
-      const { data: farmerDeliveries } = await supabase
-        .from("deliveries")
-        .select("id")
-        .eq("farmer_id", req.user!.id)
-        .eq("cooperative_id", req.user!.cooperativeId);
-      
-      const deliveryIds = (farmerDeliveries ?? []).map(d => d.id);
-      if (deliveryIds.length > 0) {
-        query = query.in("entity_id", deliveryIds).eq("entity_type", "delivery");
-      } else {
-        return res.json({ success: true, data: [] });
-      }
-    }
+  const farmerId = req.user!.farmerId;
+
+  if (!farmerId) {
+    return res.status(403).json({
+      success: false,
+      message: "Farmer profile is not linked to this account."
+    });
+  }
+
+  const { data: farmerDeliveries, error: deliveryError } = await supabase
+    .from("deliveries")
+    .select("id")
+    .eq("farmer_id", farmerId)
+    .eq("cooperative_id", req.user!.cooperativeId);
+
+  if (deliveryError) {
+    console.error("Farmer audit delivery lookup failed:", deliveryError);
+
+    return res.status(500).json({
+      success: false,
+      message: "Could not retrieve farmer audit history."
+    });
+  }
+
+  const deliveryIds = (farmerDeliveries ?? []).map(d => d.id);
+
+  if (deliveryIds.length > 0) {
+    query = query
+      .in("entity_id", deliveryIds)
+      .eq("entity_type", "delivery");
+  } else {
+    return res.json({ success: true, data: [] });
+  }
+}
 
     const { data, error } = await query;
     if (error) throw error;
