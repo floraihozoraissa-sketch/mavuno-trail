@@ -1,9 +1,37 @@
 import { useCallback, useEffect, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
+import {
+  LayoutDashboard,
+  Users,
+  Truck,
+  Package,
+  ShoppingCart,
+  ChartPie,
+  CreditCard,
+  FileText,
+  LogOut,
+  CheckCircle,
+  AlertCircle,
+  Info,
+  Wallet,
+  Check,
+  ChevronRight,
+  ChevronLeft,
+  X,
+  Loader2,
+  RefreshCw,
+  Plus,
+  Hand,
+  Home,
+  Wheat,
+  CreditCard as CreditCardIcon,
+  Truck as TruckIcon,
+} from "lucide-react";
 import { ThirdwebProvider } from "thirdweb/react";
 import { createThirdwebClient } from "thirdweb";
 import { BrowserProvider, Contract } from "ethers";
 import heroImage from "./assets/hero.png";
+import "./design-system.css";
 import "./App.css";
 import "./theme.css";
 
@@ -167,56 +195,62 @@ function WalletLogin({
   return (
     <main className="login-page login-staff">
       <section className="login-card">
-        <Brand large />
+        <div className="flex flex-col items-center text-center mb-6">
+          <Brand large />
+        </div>
 
-        <div className="eyebrow">COOPERATIVE WORKSPACE</div>
+        <div className="text-center mb-6">
+          <div className="text-micro font-semibold text-brand mb-2">COOPERATIVE WORKSPACE</div>
+          <h1 className="text-h1">Every delivery. Every decision. Clearly recorded.</h1>
+          <p className="text-body text-secondary mt-3">
+            Manage farmer deliveries, cooperative sales and payment records with a
+            clearer view of every harvest.
+          </p>
+        </div>
 
-        <h1>Every delivery. Every decision. Clearly recorded.</h1>
-
-        <p className="muted login-copy">
-          Manage farmer deliveries, cooperative sales and payment records with a
-          clearer view of every harvest.
-        </p>
-
-        <div className="wallet-box">
-          <div className="auth-method">
-            <strong>Cooperative staff access</strong>
-            <span>Secure wallet authentication</span>
-          </div>
-
+        <div className="space-y-4">
           <button
-            className="button primary full"
+            className="btn btn-primary btn-full btn-lg"
             onClick={login}
             disabled={loading}
             type="button"
           >
+            <Wallet size={20} strokeWidth={2} aria-hidden="true" />
             {loading ? "Signing in..." : "Sign in with MetaMask"}
           </button>
 
-          <p className="auth-helper">
+          <p className="text-caption text-secondary text-center">
             Connect the cooperative wallet registered for staff access.
           </p>
         </div>
 
         {message && (
-          <p className="notice" role="status" aria-live="polite">
-            {message}
-          </p>
+          <div className="alert alert-error mt-4" role="status" aria-live="polite">
+            <AlertCircle className="alert-icon" size={20} strokeWidth={2} aria-hidden="true" />
+            <div className="alert-content">
+              <p className="alert-message">{message}</p>
+            </div>
+          </div>
         )}
 
-        <div className="separator">
-          <span>OR EXPLORE</span>
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-neutral-200" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-4 bg-white text-neutral-400 font-medium">Or explore</span>
+          </div>
         </div>
 
         <button
-          className="button secondary full"
+          className="btn btn-secondary btn-full"
           onClick={onDemo}
           type="button"
         >
           Explore the farmer demo
         </button>
 
-        <p className="fine-print">
+        <p className="text-micro text-tertiary text-center mt-4">
           Demo farmer records are fictional. Staff access requires wallet
           verification and an authorised cooperative account.
         </p>
@@ -280,22 +314,25 @@ function FarmerLogin({
   return (
     <main className="login-page login-farmer">
       <section className="login-card">
-        <Brand large />
+        <div className="flex flex-col items-center text-center mb-6">
+          <Brand large />
+        </div>
 
-        <div className="eyebrow">FARMER PORTAL</div>
+        <div className="text-center mb-6">
+          <div className="text-micro font-semibold text-brand mb-2">FARMER PORTAL</div>
+          <h1 className="text-h1">Your harvest. Your records.</h1>
+          <p className="text-body text-secondary mt-3">
+            See your recorded deliveries, understand your share of cooperative
+            sales and follow your payment records.
+          </p>
+        </div>
 
-        <h1>Your harvest. Your records.</h1>
-
-        <p className="muted login-copy">
-          See your recorded deliveries, understand your share of cooperative
-          sales and follow your payment records.
-        </p>
-
-        <div className="wallet-box farmer-login-box">
-          <label htmlFor="farmer-code">
-            <span className="field-label">Your farmer code</span>
+        <div className="space-y-4">
+          <div className="input-wrapper">
+            <label className="input-label" htmlFor="farmer-code">Your farmer code</label>
             <input
               id="farmer-code"
+              className="input"
               value={farmerCode}
               onChange={(e) => setFarmerCode(e.target.value.toUpperCase())}
               onKeyDown={(e) => {
@@ -305,10 +342,10 @@ function FarmerLogin({
               autoComplete="off"
               style={{ textTransform: "uppercase" }}
             />
-          </label>
+          </div>
 
           <button
-            className="button primary full"
+            className="btn btn-primary btn-full btn-lg"
             onClick={login}
             disabled={loading}
             type="button"
@@ -318,39 +355,46 @@ function FarmerLogin({
         </div>
 
         {message && (
-          <p className="notice" role="status" aria-live="polite">
-            {message}
-          </p>
+          <div className="alert alert-error" role="status" aria-live="polite">
+            <AlertCircle className="alert-icon" size={20} strokeWidth={2} aria-hidden="true" />
+            <div className="alert-content">
+              <p className="alert-message">{message}</p>
+            </div>
+          </div>
         )}
 
-        <div className="demo-codes">
-          <strong>Try a demonstration account</strong>
-
-          <div className="code-chips">
+        <div className="card" style={{background: 'var(--color-bg-tertiary)'}}>
+          <p className="text-caption font-semibold text-primary mb-3">Try a demonstration account</p>
+          <div className="flex flex-wrap gap-2 justify-center">
             {"F-0248 F-0312 F-0156 F-0421".split(" ").map((c) => (
               <button
                 key={c}
                 type="button"
-                className="code-chip"
+                className="btn btn-ghost btn-sm"
                 onClick={() => setFarmerCode(c)}
+                style={{minWidth: '80px'}}
               >
                 {c}
               </button>
             ))}
           </div>
-
-          <p className="fine-print">
+          <p className="text-micro text-tertiary text-center mt-3">
             These are fictional demonstration records. No real farmer data is
             exposed.
           </p>
         </div>
 
-        <div className="separator">
-          <span>OR RETURN</span>
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-neutral-200" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-4 bg-white text-neutral-400 font-medium">Or return</span>
+          </div>
         </div>
 
         <button
-          className="button secondary full"
+          className="btn btn-secondary btn-full"
           onClick={() => window.location.reload()}
           type="button"
         >
@@ -571,16 +615,16 @@ function FarmerApp({
             </strong>
           </div>
 
-          <span
+<span
             className={`status ${
               confirmationStatus === "confirmed"
                 ? "status-good"
                 : confirmationStatus === "disputed"
-                  ? "status-warning"
-                  : "status-neutral"
+                ? "status-warning"
+                : "status-neutral"
             }`}
           >
-            <i />
+            <span className="status-dot" aria-hidden="true" />
             {title(confirmationStatus)}
           </span>
         </div>
@@ -705,12 +749,13 @@ function FarmerApp({
         <header className="farmer-top">
           <Brand />
           <span className="demo-chip">DEMO FARMER MODE</span>
-          <button className="text-button" onClick={onLogout}>
-            Exit demo
+          <button className="btn btn-ghost btn-icon" onClick={onLogout} aria-label="Exit demo">
+            <LogOut size={18} strokeWidth={2} aria-hidden="true" />
           </button>
         </header>
-        <div className="auth-loading">
-          <span className="spinner" /> Loading your harvest records…
+        <div className="auth-loading flex items-center justify-center min-h-[60vh] gap-3 text-secondary">
+          <Loader2 className="animate-spin" size={24} strokeWidth={2} aria-hidden="true" />
+          <span>Loading your harvest records…</span>
         </div>
       </div>
     );
@@ -792,29 +837,29 @@ function FarmerApp({
       <header className="farmer-top">
         <Brand />
         <span className="demo-chip">DEMO FARMER MODE</span>
-        <button className="text-button" onClick={onLogout}>
-          Exit demo
+        <button className="btn btn-ghost btn-icon" onClick={onLogout} aria-label="Exit demo">
+          <LogOut size={18} strokeWidth={2} aria-hidden="true" />
         </button>
       </header>
 
       <main className="farmer-content">
         <div className="farmer-greeting">
-          <div className="eyebrow">YOUR HARVEST, YOUR STORY</div>
-          <h1>
+          <div className="text-micro font-semibold text-brand mb-2">YOUR HARVEST, YOUR STORY</div>
+          <h1 className="text-h2">
             Muraho, {farmer.full_name?.split(" ")[0] || "Farmer"}{" "}
-            <span>👋</span>
+            <Hand size={24} strokeWidth={2} aria-hidden="true" />
           </h1>
-          <p>
-            {farmer.farmer_code} <i>·</i>{" "}
+          <p className="text-body text-secondary">
+            {farmer.farmer_code} <span className="text-tertiary">·</span> {" "}
             {[farmer.village, farmer.district].filter(Boolean).join(", ")}
           </p>
         </div>
 
-        <div className="demo-banner">
-          <span>ⓘ</span>
-          <div>
-            <strong>Fictional demo account</strong>
-            <p>
+        <div className="alert alert-info">
+          <Info className="alert-icon" size={20} strokeWidth={2} aria-hidden="true" />
+          <div className="alert-content">
+            <div className="alert-title">Fictional demo account</div>
+            <p className="alert-message">
               This example uses sample records only. It is not connected to a
               real farmer account or real payments.
             </p>
@@ -822,11 +867,13 @@ function FarmerApp({
         </div>
 
         {error && (
-          <div className="alert error-alert" role="alert">
-            <span>!</span>
-            {error}
-            <button onClick={() => setError("")} aria-label="Dismiss">
-              ×
+          <div className="alert alert-error" role="alert">
+            <AlertCircle className="alert-icon" size={20} strokeWidth={2} aria-hidden="true" />
+            <div className="alert-content">
+              <p className="alert-message">{error}</p>
+            </div>
+            <button className="alert-dismiss" onClick={() => setError("")} aria-label="Dismiss">
+              <X size={18} strokeWidth={2} aria-hidden="true" />
             </button>
           </div>
         )}
@@ -834,25 +881,21 @@ function FarmerApp({
         {active === "home" && (
           <>
             <section className="earnings-card">
-              <span className="light-label">TOTAL ALLOCATED</span>
+              <div className="light-label">TOTAL ALLOCATED</div>
               <strong>{money(summary.totalAllocatedRwf)}</strong>
 
               <div className="earned-meta">
                 <span>
-                  <i className="paid-dot" /> {money(summary.totalPaidRwf)} paid
+                  <span className="paid-dot" aria-hidden="true" /> {money(summary.totalPaidRwf)} paid
                 </span>
                 <span>{money(summary.outstandingRwf)} balance</span>
               </div>
 
               <div className="progress">
-                <span
-                  style={{
-                    width:
-                      summary.totalAllocatedRwf > 0
-                        ? `${Math.min(100, Math.round((summary.totalPaidRwf / summary.totalAllocatedRwf) * 100))}%`
-                        : "0%",
-                  }}
-                />
+                <div className="progress-bar" style={{width: 
+                  `${summary.totalAllocatedRwf > 0 
+                    ? Math.min(100, Math.round((summary.totalPaidRwf / summary.totalAllocatedRwf) * 100)) 
+                    : 0}%`}} />
               </div>
 
               <small>
@@ -864,14 +907,13 @@ function FarmerApp({
             </section>
 
             <section className="journey-card">
-              <div className="section-heading">
+              <div className="flex items-center justify-between gap-4 mb-5">
                 <div>
-                  <span className="eyebrow">HARVEST JOURNEY</span>
-                  <h2>From your farm to the market</h2>
+                  <div className="text-micro font-semibold text-brand mb-1">HARVEST JOURNEY</div>
+                  <h2 className="text-h3">From your farm to the market</h2>
                 </div>
-                <span className="journey-status">
-                  {journeyStatuses.filter((s) => s.complete).length} of{" "}
-                  {journeyStatuses.length} steps complete
+                <span className="status-badge status-pending">
+                  {journeyStatuses.filter((s) => s.complete).length} of {journeyStatuses.length} steps complete
                 </span>
               </div>
 
@@ -881,43 +923,48 @@ function FarmerApp({
                     className={`journey-step ${step.complete ? "complete" : ""}`}
                     key={step.label}
                   >
-                    <span className="journey-node">
-                      {step.complete ? "✓" : i + 1}
-                    </span>
-                    <div>
-                      <strong>{step.label}</strong>
-                      <small>{step.detail}</small>
+                    <div className="journey-node">
+                      {step.complete ? <Check size={14} strokeWidth={2.5} aria-hidden="true" /> : <span>{i + 1}</span>}
+                    </div>
+                    <div className="journey-step-content">
+                      <strong className="journey-step-label">{step.label}</strong>
+                      <small className="journey-step-detail">{step.detail}</small>
                     </div>
                   </div>
                 ))}
               </div>
 
               <button
-                className="button outline full"
+                className="btn btn-outline btn-full mt-4"
                 onClick={() => setActive("journey")}
               >
-                Follow delivery details <span>→</span>
+                Follow delivery details
+                <ChevronRight size={16} strokeWidth={2} aria-hidden="true" />
               </button>
             </section>
 
-            <section className="farmer-mini-grid">
-              <button onClick={() => setActive("payments")}>
-                <span>◷</span>
+            <div className="farmer-mini-grid">
+              <button className="group" onClick={() => setActive("payments")}>
+                <div className="icon-wrapper">
+                  <CreditCard size={20} strokeWidth={2} aria-hidden="true" />
+                </div>
                 <strong>Payment summary</strong>
                 <small>{money(summary.outstandingRwf)} outstanding</small>
               </button>
 
-              <button onClick={() => setActive("deliveries")}>
-                <span>▤</span>
+              <button className="group" onClick={() => setActive("deliveries")}>
+                <div className="icon-wrapper">
+                  <Package size={20} strokeWidth={2} aria-hidden="true" />
+                </div>
                 <strong>Delivery history</strong>
                 <small>{deliveries.length} recorded</small>
               </button>
-            </section>
+            </div>
 
-            <div className="sim-note">
+            <p className="text-caption text-tertiary text-center mt-6">
               Payment records shown here are simulated examples. No money has
               been transferred.
-            </div>
+            </p>
           </>
         )}
 
@@ -1107,12 +1154,15 @@ function FarmerApp({
 
         {active === "deliveries" && (
           <section className="journey-card demo-detail">
-            <button className="text-button" onClick={() => setActive("home")}>
-              ← Back to home
-            </button>
-
-            <span className="eyebrow">DELIVERY HISTORY</span>
-            <h2>{deliveries.length} recorded deliveries</h2>
+            <div className="flex items-center gap-4 mb-4">
+              <button className="btn btn-ghost btn-icon" onClick={() => setActive("home")} aria-label="Back to home">
+                <ChevronLeft size={20} strokeWidth={2} aria-hidden="true" />
+              </button>
+              <div className="flex-1 min-w-0">
+                <span className="eyebrow">DELIVERY HISTORY</span>
+                <h2 className="text-h3 truncate">{deliveries.length} recorded deliveries</h2>
+              </div>
+            </div>
 
             {deliveries.length > 0 ? (
               <div className="deliveries-list">
@@ -1135,7 +1185,7 @@ function FarmerApp({
                             : "status-neutral"
                         }`}
                       >
-                        <i />
+                        <span className="status-dot" aria-hidden="true" />
                         {title(d.status)}
                       </span>
                     </div>
@@ -1156,9 +1206,7 @@ function FarmerApp({
           className={active === "home" ? "selected" : ""}
           onClick={() => setActive("home")}
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z" />
-          </svg>
+          <Home size={24} strokeWidth={2} aria-hidden="true" />
           Home
         </button>
 
@@ -1166,11 +1214,7 @@ function FarmerApp({
           className={active === "journey" ? "selected" : ""}
           onClick={() => setActive("journey")}
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 18c4-9 7-9 10-5s4 3 6-1" />
-            <circle cx="4" cy="18" r="1.5" />
-            <circle cx="20" cy="12" r="1.5" />
-          </svg>
+          <Wheat size={24} strokeWidth={2} aria-hidden="true" />
           My harvest
         </button>
 
@@ -1178,10 +1222,7 @@ function FarmerApp({
           className={active === "payments" ? "selected" : ""}
           onClick={() => setActive("payments")}
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="14" rx="2" />
-            <path d="M3 10h18M7 15h4" />
-          </svg>
+          <CreditCardIcon size={24} strokeWidth={2} aria-hidden="true" />
           Payments
         </button>
 
@@ -1189,9 +1230,7 @@ function FarmerApp({
           className={active === "deliveries" ? "selected" : ""}
           onClick={() => setActive("deliveries")}
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" />
-          </svg>
+          <TruckIcon size={24} strokeWidth={2} aria-hidden="true" />
           Deliveries
         </button>
       </nav>
@@ -1199,93 +1238,28 @@ function FarmerApp({
   );
 }
 
-function StaffNavIcon({ id }: { id: string }) {
-  const common = {
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.8,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    "aria-hidden": true as const,
-  };
+function StaffNavIcon({ id, className }: { id: string; className?: string }) {
+  const common = { size: 20, strokeWidth: 2, "aria-hidden": true as const, className };
 
   switch (id) {
     case "overview":
-      return (
-        <svg {...common}>
-          <rect x="3" y="3" width="8" height="8" rx="2" />
-          <rect x="13" y="3" width="8" height="5" rx="2" />
-          <rect x="13" y="10" width="8" height="11" rx="2" />
-          <rect x="3" y="13" width="8" height="8" rx="2" />
-        </svg>
-      );
-
+      return <LayoutDashboard {...common} />;
     case "farmers":
-      return (
-        <svg {...common}>
-          <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="10" cy="7" r="4" />
-          <path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-        </svg>
-      );
-
+      return <Users {...common} />;
     case "deliveries":
-      return (
-        <svg {...common}>
-          <path d="M3 6h11v12H3zM14 10h4l3 3v5h-7z" />
-          <circle cx="7.5" cy="18" r="1.8" />
-          <circle cx="17.5" cy="18" r="1.8" />
-        </svg>
-      );
-
+      return <Truck {...common} />;
     case "batches":
-      return (
-        <svg {...common}>
-          <path d="m12 3 9 5-9 5-9-5 9-5zM3 12l9 5 9-5M3 16l9 5 9-5" />
-        </svg>
-      );
-
+      return <Package {...common} />;
     case "sales":
-      return (
-        <svg {...common}>
-          <path d="M3 4h2l2.2 11h11.5l2-8H6" />
-          <circle cx="9" cy="19" r="1.5" />
-          <circle cx="17" cy="19" r="1.5" />
-        </svg>
-      );
-
+      return <ShoppingCart {...common} />;
     case "allocations":
-      return (
-        <svg {...common}>
-          <path d="M12 3a9 9 0 1 0 9 9h-9z" />
-          <path d="M14 3.3A9 9 0 0 1 20.7 10H14z" />
-        </svg>
-      );
-
+      return <ChartPie {...common} />;
     case "payments":
-      return (
-        <svg {...common}>
-          <rect x="3" y="5" width="18" height="14" rx="2" />
-          <path d="M3 10h18M7 15h4" />
-        </svg>
-      );
-
+      return <CreditCard {...common} />;
     case "audit":
-      return (
-        <svg {...common}>
-          <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z" />
-          <path d="m9 12 2 2 4-4" />
-        </svg>
-      );
-
+      return <FileText {...common} />;
     default:
-      return (
-        <svg {...common}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 8v8M8 12h8" />
-        </svg>
-      );
+      return <LayoutDashboard {...common} />;
   }
 }
 
@@ -1510,9 +1484,10 @@ function StaffApp({
   return (
     <div className="staff-app">
       <aside className="sidebar">
-        <Brand />
-        <div className="side-label">WORKSPACE</div>
-        <nav className="side-nav">
+        <div className="sidebar-header">
+          <Brand />
+        </div>
+        <nav className="sidebar-nav" role="navigation" aria-label="Main navigation">
           {nav.map((item) => (
             <button
               key={item.id}
@@ -1522,60 +1497,61 @@ function StaffApp({
                 setBatchRecord(null);
                 setReceipt(null);
               }}
-              className={section === item.id ? "active" : ""}
+              className={`sidebar-nav-item ${section === item.id ? 'active' : ''}`}
+              aria-current={section === item.id ? 'page' : undefined}
             >
-              <span className="nav-icon">
-                <StaffNavIcon id={item.id} />
-              </span>
+              <StaffNavIcon id={item.id} className="sidebar-nav-icon" />
               {item.label}
-              {item.id === "deliveries" && <span className="nav-arrow">›</span>}
+              {item.id === "deliveries" && <ChevronRight size={16} strokeWidth={2} aria-hidden="true" />}
             </button>
           ))}
         </nav>
-        <div className="side-bottom">
-          <div className="co-op-mark">K</div>
-          <div className="co-op-name">
-            <strong>Cooperative workspace</strong>
-            <small>Sepolia · Connected</small>
+        <div className="sidebar-footer">
+          <div className="coop-info">
+            <div className="coop-mark">K</div>
+            <div className="coop-name">
+              <strong>Cooperative workspace</strong>
+              <small>Sepolia · Connected</small>
+            </div>
+            <button
+              className="btn btn-ghost btn-icon"
+              aria-label="Sign out"
+              onClick={onLogout}
+            >
+              <LogOut size={18} strokeWidth={2} aria-hidden="true" />
+            </button>
           </div>
-          <button
-            className="logout-icon"
-            aria-label="Sign out"
-            onClick={onLogout}
-          >
-            ↪
-          </button>
         </div>
       </aside>
       <div className="staff-main">
         <header className="topbar">
-          <div className="crumb">
-            <span>Workspace</span>
-            <b>/</b>
-            <strong>{navTitle}</strong>
-          </div>
-          <div className="top-actions">
+          <nav className="breadcrumb" aria-label="Breadcrumb">
+            <span className="breadcrumb-item">
+              <span className="breadcrumb-link">Workspace</span>
+              <ChevronRight size={14} strokeWidth={2} className="breadcrumb-separator" aria-hidden="true" />
+            </span>
+            <span className="breadcrumb-item">
+              <strong className="breadcrumb-current">{navTitle}</strong>
+            </span>
+          </nav>
+          <div className="flex items-center gap-3">
             <span className="network-tag">
-              <i /> SEPOLIA TESTNET
+              <span className="status-dot" style={{background: 'var(--color-success-500)'}} aria-hidden="true" />
+              SEPOLIA TESTNET
             </span>
-            <span className="avatar">
-              {String(identity.walletAddress || "S")
-                .slice(2, 4)
-                .toUpperCase()}
-            </span>
-            <span className="top-user">
-              Cooperative staff
-              <small>
-                {String(identity.walletAddress || "").slice(0, 6)}…
-                {String(identity.walletAddress || "").slice(-4)}
-              </small>
-            </span>
+            <div className="avatar">{String(identity.walletAddress || "S").slice(2, 4).toUpperCase()}</div>
+            <div className="text-right hidden sm:block">
+              <p className="text-caption font-medium">Cooperative staff</p>
+              <p className="text-micro text-secondary font-mono">
+                {String(identity.walletAddress || "").slice(0, 6)}…{String(identity.walletAddress || "").slice(-4)}
+              </p>
+            </div>
           </div>
         </header>
         <main className="workspace">
-          <div className="page-head">
-            <div>
-              <div className="eyebrow">
+          <div className="page-header">
+            <div className="page-header-content">
+              <div className="page-header-eyebrow">
                 {new Date()
                   .toLocaleDateString("en-GB", {
                     weekday: "long",
@@ -1584,59 +1560,68 @@ function StaffApp({
                     year: "numeric",
                   })
                   .toUpperCase()}{" "}
-                <span>·</span> RWANDA COOPERATIVE
+                <span aria-hidden="true">·</span> RWANDA COOPERATIVE
               </div>
-              <h1>
-                {section === "overview" ? "Good morning, team" : navTitle}
+              <h1 className="page-header-title">
+                {section === "overview" ? "Cooperative Dashboard" : navTitle}
               </h1>
-              <p>
+              <p className="page-header-subtitle">
                 {section === "overview"
-                  ? "Here's the story behind this season's harvest."
+                  ? "Track deliveries, batches, sales, allocations and payments."
                   : sectionCopy(section)}
               </p>
             </div>
-            <div className="page-actions">
+            <div className="page-header-actions flex items-center gap-3">
               <button
-                className="button outline"
+                className="btn btn-secondary"
                 onClick={() => void load()}
                 disabled={busy}
               >
-                ↻ Refresh
+                <RefreshCw size={16} strokeWidth={2} className={busy ? 'animate-spin' : ''} aria-hidden="true" />
+                Refresh
               </button>
               {section === "deliveries" && (
                 <button
-                  className="button primary"
+                  className="btn btn-primary"
                   onClick={() => {
                     setReceipt(null);
                     setShowDeliveryForm(true);
                   }}
                 >
-                  ＋ Record delivery
+                  <Plus size={16} strokeWidth={2} aria-hidden="true" />
+                  Record Delivery
                 </button>
               )}
             </div>
           </div>
           {error && (
-            <div className="alert error-alert" role="alert">
-              <span>!</span>
-              {error}
-              <button onClick={() => setError("")} aria-label="Dismiss">
-                ×
+            <div className="alert alert-error" role="alert">
+              <AlertCircle className="alert-icon" size={20} strokeWidth={2} aria-hidden="true" />
+              <div className="alert-content">
+                <p className="alert-message">{error}</p>
+              </div>
+              <button className="alert-dismiss" onClick={() => setError("")} aria-label="Dismiss">
+                <X size={18} strokeWidth={2} aria-hidden="true" />
               </button>
             </div>
           )}
           {success && (
-            <div className="alert success-alert" role="status">
-              <span>✓</span>
-              {success}
-              <button onClick={() => setSuccess("")} aria-label="Dismiss">
-                ×
+            <div className="alert alert-success" role="status">
+              <CheckCircle className="alert-icon" size={20} strokeWidth={2} aria-hidden="true" />
+              <div className="alert-content">
+                <p className="alert-message">{success}</p>
+              </div>
+              <button className="alert-dismiss" onClick={() => setSuccess("")} aria-label="Dismiss">
+                <X size={18} strokeWidth={2} aria-hidden="true" />
               </button>
             </div>
           )}
           {busy && (
-            <div className="loading-line">
-              <span className="spinner" /> Syncing cooperative records…
+            <div className="alert alert-info mb-4">
+              <Loader2 className="alert-icon animate-spin" size={20} strokeWidth={2} aria-hidden="true" />
+              <div className="alert-content">
+                <p className="alert-message">Syncing cooperative records…</p>
+              </div>
             </div>
           )}
           {!busy && section === "overview" && (
@@ -2435,7 +2420,8 @@ function StaffApp({
                   <h2>{data.audits?.length || 0} audit events</h2>
                 </div>
                 <span className="network-tag">
-                  <i /> SEPOLIA
+                  <span className="status-dot" style={{background: 'var(--color-success-500)'}} aria-hidden="true" />
+                  SEPOLIA
                 </span>
               </div>
               <div className="simulated-banner">
@@ -2983,7 +2969,7 @@ function Status({ status }: { status: unknown }) {
     <span
       className={`status ${verified ? "status-verified" : ["recorded", "approved", "active", "sold", "closed"].includes(value) ? "status-good" : "status-neutral"}`}
     >
-      <i />
+      <span className="status-dot" aria-hidden="true" />
       {title(value)}
     </span>
   );
