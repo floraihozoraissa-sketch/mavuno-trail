@@ -341,11 +341,6 @@ a {
   flex-shrink: 0;
 }
 
-.staff-main {
-  margin-left: 230px;
-  width: calc(100% - 230px);
-}
-
 .topbar {
   height: 61px;
   border-bottom: 1px solid var(--line);

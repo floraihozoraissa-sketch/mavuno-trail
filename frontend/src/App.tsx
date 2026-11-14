@@ -26,6 +26,11 @@ import {
   Wheat,
   CreditCard as CreditCardIcon,
   Truck as TruckIcon,
+  Scale,
+  ClipboardList,
+  Search,
+  ArrowRight,
+  Shield,
 } from "lucide-react";
 import { ThirdwebProvider } from "thirdweb/react";
 import { createThirdwebClient } from "thirdweb";
@@ -1913,9 +1918,7 @@ function StaffApp({
                     className="button primary deliveries-create-button"
                     onClick={() => setShowDeliveryForm(true)}
                   >
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M12 5v14M5 12h14" />
-                    </svg>
+                    <Plus size={18} strokeWidth={2} aria-hidden="true" />
                     Record delivery
                   </button>
                 </div>
@@ -1923,11 +1926,7 @@ function StaffApp({
                 <div className="deliveries-summary">
                   <article className="deliveries-summary-card">
                     <span className="deliveries-icon green">
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M3 7h11v11H3zM14 11h4l3 3v4h-7z" />
-                        <circle cx="7.5" cy="18" r="1.8" />
-                        <circle cx="17.5" cy="18" r="1.8" />
-                      </svg>
+                      <Truck size={24} strokeWidth={2} aria-hidden="true" />
                     </span>
                     <div>
                       <span>Total recorded deliveries</span>
@@ -1940,10 +1939,7 @@ function StaffApp({
 
                   <article className="deliveries-summary-card">
                     <span className="deliveries-icon gold">
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M4 7h16M6 7l2 13h8l2-13M9 7V4h6v3" />
-                        <path d="M10 11v5M14 11v5" />
-                      </svg>
+                      <Package size={24} strokeWidth={2} aria-hidden="true" />
                     </span>
                     <div>
                       <span>Total harvest received</span>
@@ -1962,10 +1958,7 @@ function StaffApp({
 
                   <article className="deliveries-summary-card deliveries-summary-tip">
                     <span className="deliveries-icon neutral">
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="12" r="9" />
-                        <path d="M12 11v5M12 8h.01" />
-                      </svg>
+                      <Shield size={24} strokeWidth={2} aria-hidden="true" />
                     </span>
                     <div>
                       <span>Keep records up to date</span>
@@ -2059,22 +2052,7 @@ function StaffApp({
                 <div className="batches-summary">
                   <div className="batch-summary-card">
                     <div className="batch-summary-icon">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <rect
-                          x="3"
-                          y="4"
-                          width="18"
-                          height="16"
-                          rx="2"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                        />
-                        <path
-                          d="M3 9h18M8 4v5m8-5v5"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                        />
-                      </svg>
+                      <Package size={28} strokeWidth={2} aria-hidden="true" />
                     </div>
                     <div>
                       <span>Total batches</span>
@@ -2085,20 +2063,7 @@ function StaffApp({
 
                   <div className="batch-summary-card">
                     <div className="batch-summary-icon quantity">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path
-                          d="M4 8h16l-1 12H5L4 8Z"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M9 8V6a3 3 0 0 1 6 0v2M8 13h8"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          strokeLinecap="round"
-                        />
-                      </svg>
+                      <Scale size={28} strokeWidth={2} aria-hidden="true" />
                     </div>
                     <div>
                       <span>Total batch quantity</span>
@@ -2117,28 +2082,7 @@ function StaffApp({
 
                   <div className="batch-summary-card">
                     <div className="batch-summary-icon deliveries">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path
-                          d="M3 7h11v11H3zM14 11h4l3 3v4h-7z"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          strokeLinejoin="round"
-                        />
-                        <circle
-                          cx="7.5"
-                          cy="19"
-                          r="1.5"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                        />
-                        <circle
-                          cx="17.5"
-                          cy="19"
-                          r="1.5"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                        />
-                      </svg>
+                      <ClipboardList size={28} strokeWidth={2} aria-hidden="true" />
                     </div>
                     <div>
                       <span>Deliveries in batches</span>
@@ -2149,10 +2093,11 @@ function StaffApp({
                           0,
                         )}
                       </strong>
-                      <small>Combined delivery count</small>
-                    </div>
-                  </div>
-                </div>
+                      <small>Individual delivery records</small>
+</div>
+              </div>
+
+              </div>
 
                 <section className="panel data-panel batches-table-panel">
                   <div className="panel-head">
@@ -2525,11 +2470,7 @@ function StaffApp({
           >
             <div className="delivery-form-intro">
               <span className="delivery-form-intro-icon">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M3 7h11v11H3zM14 11h4l3 3v4h-7z" />
-                  <circle cx="7.5" cy="18" r="1.8" />
-                  <circle cx="17.5" cy="18" r="1.8" />
-                </svg>
+                <Truck size={24} strokeWidth={2} aria-hidden="true" />
               </span>
               <p>
                 Enter the harvest details carefully. These details will be used
@@ -2539,10 +2480,7 @@ function StaffApp({
 
             <div className="delivery-form-section-heading">
               <span className="delivery-form-section-icon">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="9" cy="8" r="4" />
-                  <path d="M2.5 21v-2a6.5 6.5 0 0 1 13 0v2M17 8h5M19.5 5.5v5" />
-                </svg>
+                <Users size={24} strokeWidth={2} aria-hidden="true" />
               </span>
               <div>
                 <strong>Farmer and collection centre</strong>
@@ -2580,10 +2518,7 @@ function StaffApp({
 
             <div className="delivery-form-section-heading">
               <span className="delivery-form-section-icon gold">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="4" width="18" height="17" rx="2" />
-                  <path d="M16 2v4M8 2v4M3 10h18M8 14h3M8 17h7" />
-                </svg>
+                <Package size={24} strokeWidth={2} aria-hidden="true" />
               </span>
               <div>
                 <strong>Delivery details</strong>
@@ -2643,10 +2578,7 @@ function StaffApp({
             </div>
 
             <div className="delivery-form-footnote">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="9" />
-                <path d="M12 11v5M12 8h.01" />
-              </svg>
+              <Info size={20} strokeWidth={2} aria-hidden="true" />
               <p>
                 Review the details before submitting. The receipt will summarize
                 the information entered in this form.
@@ -2953,7 +2885,7 @@ function SearchBox({
 }) {
   return (
     <div className="search-box">
-      <span>⌕</span>
+      <Search size={18} strokeWidth={2} aria-hidden="true" />
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -3127,15 +3059,7 @@ function DeliveryReceipt({
 
         <div className="receipt-top">
           <div className="receipt-check">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="m5 12 4.5 4.5L19 7"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <CheckCircle size={28} strokeWidth={2.5} aria-hidden="true" />
           </div>
 
           <span className="eyebrow">DELIVERY RECEIPT</span>
@@ -3184,15 +3108,7 @@ function DeliveryReceipt({
 
         <div className="receipt-next">
           <div className="next-icon">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M4 19V5m0 14h16M7 15l4-4 3 2 5-6"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ArrowRight size={24} strokeWidth={2} aria-hidden="true" />
           </div>
 
           <div>
@@ -3205,26 +3121,13 @@ function DeliveryReceipt({
           </div>
         </div>
 
-        <div className="receipt-audit-note">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M12 3 5 6v5c0 4.5 2.9 8 7 10 4.1-2 7-5.5 7-10V6l-7-3Z"
-              stroke="currentColor"
-              strokeWidth="1.7"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M9 12h6"
-              stroke="currentColor"
-              strokeWidth="1.7"
-              strokeLinecap="round"
-            />
-          </svg>
-          <p>
-            <strong>Recordkeeping note</strong>
-            <span>
-              This receipt confirms that the delivery record was saved. Any
-              blockchain audit entry provides a tamper-evident history of
+<div className="receipt-audit-note">
+            <Shield size={24} strokeWidth={1.7} aria-hidden="true" />
+            <p>
+              <strong>Recordkeeping note</strong>
+              <span>
+                This receipt confirms that the delivery record was saved. Any
+                blockchain audit entry provides a tamper-evident history of
               submitted records; it does not independently verify the physical
               harvest.
             </span>
@@ -3262,35 +3165,14 @@ function BatchDetail({
   return (
     <section className="batch-detail-page">
       <button className="batch-back-button" onClick={onBack}>
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="m14 18-6-6 6-6M8 12h12"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <ChevronLeft size={20} strokeWidth={2} aria-hidden="true" />
         Back to batches
       </button>
 
       <div className="batch-detail-hero">
         <div className="batch-detail-heading">
           <div className="batch-detail-icon">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9Z"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinejoin="round"
-              />
-              <path
-                d="m3.5 7.5 8.5 4.3 8.5-4.3M12 12v9M8 5l9 4"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Package size={32} strokeWidth={2} aria-hidden="true" />
           </div>
 
           <div className="batch-detail-title">
@@ -3373,21 +3255,7 @@ function BatchDetail({
 
       <div className="batch-detail-note">
         <div className="batch-note-icon">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle
-              cx="12"
-              cy="12"
-              r="9"
-              stroke="currentColor"
-              strokeWidth="1.8"
-            />
-            <path
-              d="M12 11v5m0-8h.01"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
+          <AlertCircle size={24} strokeWidth={2} aria-hidden="true" />
         </div>
 
         <div>
